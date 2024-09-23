@@ -7,6 +7,7 @@ import About from "./components/About";
 import Education from "./components/Education";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
+import Skills from "./components/Skills";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
       <Banner />
       <Nav />
       <About />
+      <Skills />
       <Projects />
       <Education />
       <Contact />

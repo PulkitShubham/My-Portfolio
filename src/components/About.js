@@ -63,7 +63,7 @@ const About = () => {
               </p>
               {/* stats */}
               <div className="flex flex-col sm:flex-row gap-x-6 lg:gap-x-10 mb-12 justify-center lg:justify-between">
-                <div className="flex-1 text-center">
+                <div className="flex-1 text-center mb-4 sm:mb-0">
                   <div className="text-[40px] font-tertiary text-gradient mb-2">
                     {inView ? <CountUp start={0} end={2} duration={3} /> : null}
                     K+

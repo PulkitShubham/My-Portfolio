@@ -29,7 +29,7 @@ const Nav = () => {
             <BiUser />
           </Link>
           <Link
-            to="projects"
+            to="skills"
             activeclass="active"
             smooth={true}
             spy={true}
