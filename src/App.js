@@ -6,7 +6,6 @@ import Nav from "./components/Nav";
 import About from "./components/About";
 import Education from "./components/Education";
 import Projects from "./components/Projects";
-import Skills from "./components/Skills";
 import Contact from "./components/Contact";
 
 const App = () => {
@@ -16,7 +15,6 @@ const App = () => {
       <Banner />
       <Nav />
       <About />
-      <Skills />
       <Projects />
       <Education />
       <Contact />
