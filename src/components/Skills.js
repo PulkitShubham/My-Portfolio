@@ -65,6 +65,7 @@ const Skill = styled.div`
   border-radius: 16px;
   padding: 18px 36px;
   transition: border-color 0.3s, transform 0.3s; /* Smooth transition */
+
   &:hover {
     border-color: #5a3fa0; /* Change border color on hover */
   }
@@ -73,6 +74,7 @@ const Skill = styled.div`
     max-width: 400px;
     padding: 10px 36px;
   }
+
   @media (max-width: 500px) {
     max-width: 330px;
     padding: 10px 36px;
@@ -106,10 +108,12 @@ const SkillItem = styled.div`
   align-items: center;
   justify-content: center;
   gap: 8px;
+
   @media (max-width: 768px) {
     font-size: 14px;
     padding: 8px 12px;
   }
+
   @media (max-width: 500px) {
     font-size: 14px;
     padding: 6px 12px;
@@ -123,6 +127,7 @@ const SkillImage = styled.img`
 
 const SkillCard = ({ skill }) => {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [scale, setScale] = useState(1); // State for scale
 
   const handleMouseMove = (e) => {
     const { clientX, clientY, currentTarget } = e;
@@ -132,16 +137,22 @@ const SkillCard = ({ skill }) => {
     setTilt({ x, y });
   };
 
+  const handleMouseEnter = () => {
+    setScale(1.05); // Scale up on mouse enter
+  };
+
   const handleMouseLeave = () => {
     setTilt({ x: 0, y: 0 }); // Reset tilt on mouse leave
+    setScale(1); // Reset scale on mouse leave
   };
 
   return (
     <Skill
       onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter} // Handle scale on mouse enter
       onMouseLeave={handleMouseLeave}
       style={{
-        transform: `perspective(1000px) rotateY(${tilt.x}deg) rotateX(${tilt.y}deg)`,
+        transform: `perspective(1000px) rotateY(${tilt.x}deg) rotateX(${tilt.y}deg) scale(${scale})`, // Include scale in the transform
       }}
     >
       <SkillTitle>{skill.title}</SkillTitle>

@@ -1,7 +1,9 @@
 import React from "react";
-import { FaLinkedin, FaGithub, FaTwitter } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaTwitter, FaDownload } from "react-icons/fa";
 import { TypeAnimation } from "react-type-animation";
 import { motion } from "framer-motion";
+import { FiDownload } from "react-icons/fi";
+
 import { fadeIn } from "../variants";
 const Banner = () => {
   return (
@@ -64,10 +66,15 @@ const Banner = () => {
               viewport={{ once: false, amount: 0.7 }}
               className="flex max-w-max gap-x-6 items-center mb-12 mx-auto lg:mx-0"
             >
-              <button className="btn btn-lg">Contact me</button>
-              <a href="#" className="text-gradient btn-link">
-                My Portfolio
-              </a>
+              <button
+                className="btn btn-lg"
+                style={{ display: "inline-flex", alignItems: "center" }}
+                onClick={() => window.open("../CV.pdf", "_blank")} // Open PDF in a new tab
+              >
+                Download CV
+                <FiDownload style={{ marginLeft: "5px" }} />{" "}
+                {/* Add margin for spacing */}
+              </button>
             </motion.div>
             {/*socials*/}
             <motion.div
@@ -77,13 +84,16 @@ const Banner = () => {
               viewport={{ once: false, amount: 0.7 }}
               className="flex text-[20px] gap-x-6 max-w-max mx-auto lg:mx-0"
             >
-              <a href="#">
+              <a
+                href="https://www.linkedin.com/in/pulkit-shubham/"
+                target="blank"
+              >
                 <FaLinkedin />
               </a>
-              <a href="#">
+              <a href="https://github.com/PulkitShubham" target="blank">
                 <FaGithub />
               </a>
-              <a href="#">
+              <a href="https://twitter.com/pulkits990" target="blank">
                 <FaTwitter />
               </a>
             </motion.div>

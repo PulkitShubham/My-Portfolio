@@ -17,8 +17,8 @@ const App = () => {
       <Nav />
       <About />
       <Skills />
-      <Projects />
       <Education />
+      <Projects />
       <Contact />
       <div className="h-[4000px]"></div>
     </div>

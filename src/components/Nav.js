@@ -1,6 +1,7 @@
 import React from "react";
-import { BiClipboard, BiHomeAlt, BiUser } from "react-icons/bi";
+import { BiHomeAlt, BiUser } from "react-icons/bi";
 import { BsClipboardData, BsBriefcase } from "react-icons/bs";
+import { FaGraduationCap } from "react-icons/fa";
 import { Link } from "react-scroll";
 
 const Nav = () => {
@@ -44,16 +45,17 @@ const Nav = () => {
             spy={true}
             className="cursor-pointer w-[60px] h-[60px] flex items-center justify-center"
           >
-            <BsClipboardData />
+            <FaGraduationCap />
           </Link>
+
           <Link
-            to="contact"
+            to="projects"
             activeclass="active"
             smooth={true}
             spy={true}
             className="cursor-pointer w-[60px] h-[60px] flex items-center justify-center"
           >
-            <BiClipboard />
+            <BsClipboardData />
           </Link>
         </div>
       </div>

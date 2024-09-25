@@ -10,7 +10,12 @@ const Header = () => {
             <img src="../logo.png" />
           </a>
           {/*button*/}
-          <button className="btn btn-sm">Contact me</button>
+          <a
+            href="#contact"
+            className="btn btn-sm flex justify-center items-center"
+          >
+            Contact me
+          </a>
         </div>
       </div>
     </header>
