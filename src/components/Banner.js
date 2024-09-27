@@ -42,7 +42,7 @@ const Banner = () => {
                   "Data Science Trailblazer",
                   2000,
                 ]}
-                speed={50}
+                speed={80}
                 className="text-accent"
                 wrapper="span"
                 repeat={Infinity}
