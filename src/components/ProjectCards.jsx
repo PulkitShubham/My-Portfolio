@@ -61,6 +61,7 @@ const Tag = styled.span`
   background-color: ${({ theme }) => theme.primary + 15};
   padding: 2px 8px;
   border-radius: 10px;
+  border: 0.1px solid #854ce6;
 `;
 
 const Details = styled.div`
