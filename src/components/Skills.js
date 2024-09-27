@@ -108,6 +108,7 @@ const SkillItem = styled.div`
   align-items: center;
   justify-content: center;
   gap: 8px;
+  border: 0.1px solid #854ce6;
 
   @media (max-width: 768px) {
     font-size: 14px;

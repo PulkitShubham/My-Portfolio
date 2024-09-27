@@ -64,6 +64,7 @@ export const ToggleButtonGroup = styled.div`
   @media (max-width: 768px) {
     font-size: 12px;
   }
+  border: 0.1px solid #854ce6;
 `;
 
 export const ToggleButton = styled.div`
@@ -85,7 +86,7 @@ export const ToggleButton = styled.div`
 `;
 export const Divider = styled.div`
   width: 1.5px;
-  background: ${({ theme }) => theme.primary};
+  background: #854ce6;
 `;
 
 export const CardContainer = styled.div`
