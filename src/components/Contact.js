@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { fadeIn } from "../variants";
 import emailjs from "emailjs-com";
-import Swal from "sweetalert2";
+import Swal from "sweetalert2"; // Import SweetAlert2
 
 const Contact = () => {
   const form = useRef();
@@ -10,6 +10,23 @@ const Contact = () => {
   const sendEmail = (e) => {
     e.preventDefault();
 
+    // Validation logic to prevent empty submissions
+    const name = form.current["from_name"].value;
+    const email = form.current["email_id"].value;
+    const message = form.current["message"].value;
+
+    if (!name || !email || !message) {
+      Swal.fire({
+        icon: "warning",
+        title: "Incomplete Form",
+        text: "Please fill in all fields before sending the message.",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "OK",
+      });
+      return; // Prevent the form submission if any field is empty
+    }
+
+    // If validation passes, send the email
     emailjs
       .sendForm(
         "service_hpeo995", // Your EmailJS service ID
@@ -38,7 +55,7 @@ const Contact = () => {
         }
       );
 
-    e.target.reset();
+    e.target.reset(); // Reset the form after submission
   };
 
   return (
@@ -65,8 +82,8 @@ const Contact = () => {
 
           {/*form*/}
           <motion.form
-            ref={form}
-            onSubmit={sendEmail}
+            ref={form} // Attach form ref to the form element
+            onSubmit={sendEmail} // Add onSubmit handler
             variants={fadeIn("left", 0.3)}
             initial="hidden"
             whileInView={"show"}
@@ -77,18 +94,18 @@ const Contact = () => {
               className="bg-transparent border-b py-3 outline-none w-full placeholder:text-white focus:border-accent transition-all"
               type="text"
               placeholder="Your name"
-              name="from_name" // Updated to match the EmailJS template
+              name="from_name" // Add name attribute required by EmailJS
             />
             <input
               className="bg-transparent border-b py-3 outline-none w-full placeholder:text-white focus:border-accent transition-all"
               type="email"
               placeholder="Your email"
-              name="email_id" // Updated to match the EmailJS template
+              name="email_id" // Add name attribute required by EmailJS
             />
             <textarea
               className="bg-transparent border-b py-12 outline-none w-full placeholder:text-white focus:border-accent transition-all resize-none mb-12"
               placeholder="Your message"
-              name="message" // This is already correct
+              name="message" // Add name attribute required by EmailJS
             ></textarea>
             <button type="submit" className="btn btn-lg">
               Send message
