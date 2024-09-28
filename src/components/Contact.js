@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { fadeIn } from "../variants";
 import emailjs from "emailjs-com";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2";
 
 const Contact = () => {
   const form = useRef();
@@ -38,7 +38,7 @@ const Contact = () => {
         }
       );
 
-    e.target.reset(); // Reset form after submission
+    e.target.reset();
   };
 
   return (
@@ -65,8 +65,8 @@ const Contact = () => {
 
           {/*form*/}
           <motion.form
-            ref={form} // Attach form ref to the form element
-            onSubmit={sendEmail} // Add onSubmit handler
+            ref={form}
+            onSubmit={sendEmail}
             variants={fadeIn("left", 0.3)}
             initial="hidden"
             whileInView={"show"}
@@ -77,18 +77,18 @@ const Contact = () => {
               className="bg-transparent border-b py-3 outline-none w-full placeholder:text-white focus:border-accent transition-all"
               type="text"
               placeholder="Your name"
-              name="user_name" // Add name attribute required by EmailJS
+              name="from_name" // Updated to match the EmailJS template
             />
             <input
               className="bg-transparent border-b py-3 outline-none w-full placeholder:text-white focus:border-accent transition-all"
               type="email"
               placeholder="Your email"
-              name="user_email" // Add name attribute required by EmailJS
+              name="email_id" // Updated to match the EmailJS template
             />
             <textarea
               className="bg-transparent border-b py-12 outline-none w-full placeholder:text-white focus:border-accent transition-all resize-none mb-12"
               placeholder="Your message"
-              name="message" // Add name attribute required by EmailJS
+              name="message" // This is already correct
             ></textarea>
             <button type="submit" className="btn btn-lg">
               Send message
