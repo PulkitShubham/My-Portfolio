@@ -241,7 +241,8 @@ export const projects = [
     image: "../dashboard.png",
     tags: ["Microsoft Excel", "Kaggle"],
     category: "machine learning",
-    github: "",
+    github:
+      "https://drive.google.com/file/d/1EbSItb2AF5MXXXr7hXPu1qhIqhPARzxT/view",
   },
   {
     id: 1,
@@ -263,7 +264,8 @@ export const projects = [
     image: "../railway.png",
     tags: ["HTML", "CSS", "JS", "Bootstrap"],
     category: "web app",
-    github: "",
+    github:
+      "https://github.com/PulkitShubham/Railway-Reservation-System-Website",
   },
   {
     id: 3,
@@ -282,7 +284,7 @@ export const projects = [
       "Scikit-learn",
     ],
     category: "machine learning",
-    github: "",
+    github: "https://github.com/PulkitShubham/Cat_And_Dog_Image_Classifier",
   },
   {
     id: 10,
@@ -300,7 +302,7 @@ export const projects = [
       "XGBoost",
     ],
     category: "machine learning",
-    github: "",
+    github: "https://github.com/PulkitShubham/SMS_Spam_Classifier",
   },
   {
     id: 4,
