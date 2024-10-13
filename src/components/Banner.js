@@ -1,6 +1,7 @@
 import React from "react";
-import { FaLinkedin, FaGithub, FaTwitter, FaDownload } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaTwitter } from "react-icons/fa";
 import { TypeAnimation } from "react-type-animation";
+import { SiLeetcode } from "react-icons/si";
 import { motion } from "framer-motion";
 import { FiDownload } from "react-icons/fi";
 
@@ -95,6 +96,13 @@ const Banner = () => {
               </a>
               <a href="https://twitter.com/pulkits990" target="blank">
                 <FaTwitter />
+              </a>
+              <a
+                href="https://leetcode.com/pulkit_shubham/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <SiLeetcode /> {/* LeetCode icon */}
               </a>
             </motion.div>
           </div>
