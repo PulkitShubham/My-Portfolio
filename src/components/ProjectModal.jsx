@@ -57,13 +57,13 @@ export default function ProjectModal({ project, onClose }) {
           className="overflow-y-auto p-6 md:p-10"
           data-lenis-prevent
         >
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-fg">
             {project.category} · {project.date}
           </p>
           <h3 id="project-title" className="mt-3 font-display text-3xl font-semibold md:text-4xl">
             {project.title}
           </h3>
-          <p className="mt-5 leading-relaxed text-white/75">{project.description}</p>
+          <p className="mt-5 leading-relaxed text-fg/75">{project.description}</p>
 
           <ul className="mt-6 flex flex-wrap gap-2">
             {project.tags.map((t, i) => (
@@ -71,7 +71,7 @@ export default function ProjectModal({ project, onClose }) {
                 key={t}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1, transition: { delay: 0.35 + i * 0.04 } }}
-                className="rounded-full border border-line bg-white/[0.03] px-3 py-1 font-mono text-xs text-white/80"
+                className="rounded-full border border-line bg-fg/[0.03] px-3 py-1 font-mono text-xs text-fg/80"
               >
                 {t}
               </motion.li>
@@ -84,7 +84,7 @@ export default function ProjectModal({ project, onClose }) {
                 href={project.github}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-medium text-ink transition-transform hover:scale-105"
+                className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-medium text-on-accent transition-transform hover:scale-105"
               >
                 {isRepo ? <FiGithub /> : <FiExternalLink />}
                 {isRepo ? "View source" : "Open project"}

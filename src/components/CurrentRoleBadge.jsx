@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { FiArrowDownRight } from "react-icons/fi";
 import { profile } from "../data/content";
 import { scrollToId } from "../lib/scroll";
+import ThemedImage from "./ui/ThemedImage";
 
 // Nielsen's brand colours, taken from the logo SVG.
 const BRAND_GRADIENT = "conic-gradient(from 0deg, #6E37FA, #F40953, #FF9408, #32BBB9, #6E37FA)";
@@ -42,19 +43,19 @@ export default function CurrentRoleBadge({ motionProps }) {
           {/* Shimmer sweep */}
           <motion.span
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/10 to-transparent"
+            className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-20deg] bg-gradient-to-r from-transparent via-fg/10 to-transparent"
             animate={{ x: ["0%", "450%"] }}
             transition={{ duration: 1.6, repeat: Infinity, repeatDelay: 3.5, ease: "easeInOut" }}
           />
 
           {/* Logo panel */}
-          <span className="relative flex h-11 items-center rounded-full bg-white/[0.06] px-4 ring-1 ring-white/10 sm:h-12 sm:px-5">
-            <img src={logo} alt="" className="h-4 w-auto transition-transform duration-500 group-hover:scale-110 sm:h-5" />
+          <span className="relative flex h-11 items-center rounded-full bg-fg/[0.06] px-4 ring-1 ring-fg/10 sm:h-12 sm:px-5">
+            <ThemedImage src={logo} className="h-4 w-auto transition-transform duration-500 group-hover:scale-110 sm:h-5" />
           </span>
 
           {/* Text */}
           <span className="relative flex flex-col items-start text-left leading-tight">
-            <span className="flex items-center gap-2 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.22em] text-white/55">
+            <span className="flex items-center gap-2 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.22em] text-fg/55">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
@@ -62,14 +63,14 @@ export default function CurrentRoleBadge({ motionProps }) {
               {/* The logo already names the company, so small screens drop the repeat */}
               Currently<span className="hidden sm:inline">&nbsp;at {company}</span>
             </span>
-            <span className="mt-1 font-display text-base font-semibold text-white sm:text-lg">
+            <span className="mt-1 font-display text-base font-semibold text-fg sm:text-lg">
               <span className="sm:hidden">{title}</span>
               <span className="hidden sm:inline">{fullTitle}</span>
             </span>
           </span>
 
           {/* Arrow */}
-          <span className="relative grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/10 text-white/60 transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-ink">
+          <span className="relative grid h-9 w-9 shrink-0 place-items-center rounded-full border border-fg/10 text-fg/60 transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent">
             <FiArrowDownRight className="transition-transform duration-300 group-hover:rotate-[-45deg]" />
           </span>
         </span>

@@ -51,23 +51,23 @@ export default function ProjectCard({ project, index, onOpen }) {
             className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/20 to-transparent" />
-          <span className="absolute left-4 top-4 rounded-full bg-ink/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white/80 backdrop-blur">
+          <span className="absolute left-4 top-4 rounded-full bg-ink/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-fg/80 backdrop-blur">
             {project.category}
           </span>
-          <span className="absolute right-4 top-4 grid h-10 w-10 translate-y-2 place-items-center rounded-full bg-accent text-ink opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+          <span className="absolute right-4 top-4 grid h-10 w-10 translate-y-2 place-items-center rounded-full bg-accent text-on-accent opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
             <FiArrowUpRight className="transition-transform duration-500 group-hover:rotate-45" />
           </span>
         </div>
 
         <div className="flex flex-1 flex-col p-6">
           <p className="font-mono text-xs text-muted">{project.date}</p>
-          <h3 className="mt-2 font-display text-2xl font-semibold leading-tight transition-colors group-hover:text-accent">
+          <h3 className="mt-2 font-display text-2xl font-semibold leading-tight transition-colors group-hover:text-accent-fg">
             {project.title}
           </h3>
           <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted">{project.description}</p>
           <ul className="mt-auto flex flex-wrap gap-1.5 pt-5">
             {project.tags.slice(0, 4).map((t) => (
-              <li key={t} className="rounded-full border border-line px-2.5 py-1 font-mono text-[11px] text-white/70">
+              <li key={t} className="rounded-full border border-line px-2.5 py-1 font-mono text-[11px] text-fg/70">
                 {t}
               </li>
             ))}

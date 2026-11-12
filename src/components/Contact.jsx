@@ -27,7 +27,7 @@ function Field({ label, name, type = "text", textarea, error }) {
       />
       <label
         htmlFor={name}
-        className="pointer-events-none absolute left-0 top-7 origin-left text-lg text-muted transition-all duration-300 peer-focus:top-0 peer-focus:scale-75 peer-focus:text-accent peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-75"
+        className="pointer-events-none absolute left-0 top-7 origin-left text-lg text-muted transition-all duration-300 peer-focus:top-0 peer-focus:scale-75 peer-focus:text-accent-fg peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-75"
       >
         {label}
       </label>
@@ -64,7 +64,7 @@ function Toast({ toast }) {
         >
           <span
             className={`grid h-8 w-8 place-items-center rounded-full ${
-              toast.type === "success" ? "bg-accent text-ink" : "bg-red-500/20 text-red-400"
+              toast.type === "success" ? "bg-accent text-on-accent" : "bg-red-500/20 text-red-400"
             }`}
           >
             {toast.type === "success" ? <FiCheck /> : <FiAlertTriangle />}
@@ -125,7 +125,7 @@ export default function Contact() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-accent"
+              className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-accent-fg"
             >
               06 — Get in touch
             </motion.p>
@@ -156,7 +156,7 @@ export default function Contact() {
                     href={s.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="group flex items-center justify-between border-b border-line py-4 font-display text-xl transition-colors hover:text-accent"
+                    className="group flex items-center justify-between border-b border-line py-4 font-display text-xl transition-colors hover:text-accent-fg"
                   >
                     <span className="transition-transform duration-300 group-hover:translate-x-3">{s.name}</span>
                     <FiArrowUpRight className="transition-transform duration-300 group-hover:rotate-45" />
@@ -184,7 +184,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === "sending"}
-                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-accent px-8 py-4 font-medium text-ink disabled:opacity-70"
+                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-accent px-8 py-4 font-medium text-on-accent disabled:opacity-70"
               >
                 <span className="absolute inset-0 translate-y-full rounded-full bg-white transition-transform duration-500 ease-out group-hover:translate-y-0" />
                 <AnimatePresence mode="wait" initial={false}>

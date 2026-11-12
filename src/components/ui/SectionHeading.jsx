@@ -11,7 +11,7 @@ export default function SectionHeading({ index, label, title, desc, align = "lef
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className={`mb-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-accent ${center ? "justify-center" : ""}`}
+        className={`mb-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-accent-fg ${center ? "justify-center" : ""}`}
       >
         <span>{index}</span>
         <motion.span

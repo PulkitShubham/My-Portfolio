@@ -17,12 +17,12 @@ function Row({ items, reverse, outlined }) {
           <span key={i} className="flex items-center gap-10 whitespace-nowrap">
             <span
               className={`font-display text-4xl font-semibold uppercase tracking-tight md:text-6xl ${
-                outlined ? "text-outline" : "text-white"
+                outlined ? "text-outline" : "text-fg"
               }`}
             >
               {item}
             </span>
-            <span className="text-2xl text-accent md:text-4xl">✦</span>
+            <span className="text-2xl text-accent-fg md:text-4xl">✦</span>
           </span>
         ))}
       </div>

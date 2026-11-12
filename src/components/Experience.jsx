@@ -4,6 +4,7 @@ import { FiArrowUpRight, FiTrendingUp } from "react-icons/fi";
 import { experience } from "../data/content";
 import SectionHeading from "./ui/SectionHeading";
 import SpotlightCard from "./ui/SpotlightCard";
+import ThemedImage from "./ui/ThemedImage";
 
 const ease = [0.22, 1, 0.36, 1];
 
@@ -40,15 +41,15 @@ function RoleCard({ role, index }) {
     >
       <div className="flex flex-wrap items-center gap-3">
         {current && (
-          <span className="inline-flex items-center gap-2 rounded-full bg-accent px-3 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.15em] text-ink">
+          <span className="inline-flex items-center gap-2 rounded-full bg-accent px-3 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.15em] text-on-accent">
             <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ink opacity-60" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-ink" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-on-accent opacity-60" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-on-accent" />
             </span>
             Current
           </span>
         )}
-        <span className="rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-[0.15em] text-white/70">
+        <span className="rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-[0.15em] text-fg/70">
           {role.type}
         </span>
       </div>
@@ -56,7 +57,7 @@ function RoleCard({ role, index }) {
       <h3 className="mt-5 font-display text-2xl font-semibold leading-tight md:text-3xl">{role.title}</h3>
       <p className="mt-2 font-mono text-sm text-muted">
         {fmt(role.start)} — {current ? "Present" : fmt(role.end)}
-        <span className="mx-2 text-white/20">·</span>
+        <span className="mx-2 text-fg/20">·</span>
         {formatDuration(monthsBetween(role.start, role.end))}
       </p>
 
@@ -72,7 +73,7 @@ function RoleCard({ role, index }) {
             <motion.li
               key={p}
               variants={{ hidden: { opacity: 0, x: -16 }, show: { opacity: 1, x: 0, transition: { duration: 0.5, ease } } }}
-              className="flex gap-3 text-sm leading-relaxed text-white/75"
+              className="flex gap-3 text-sm leading-relaxed text-fg/75"
             >
               <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
               {p}
@@ -84,7 +85,7 @@ function RoleCard({ role, index }) {
       {role.tags.length > 0 && (
         <ul className="mt-6 flex flex-wrap gap-2">
           {role.tags.map((t) => (
-            <li key={t} className="rounded-full border border-line bg-white/[0.03] px-3 py-1 font-mono text-xs text-white/80">
+            <li key={t} className="rounded-full border border-line bg-fg/[0.03] px-3 py-1 font-mono text-xs text-fg/80">
               {t}
             </li>
           ))}
@@ -116,14 +117,14 @@ function CompanyBlock({ company }) {
           <motion.h3
             whileHover={{ y: -4, scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="group relative inline-flex overflow-hidden rounded-3xl border border-line bg-white/[0.03] px-7 py-6 shadow-[0_20px_60px_-20px_rgba(110,55,250,0.55)]"
+            className="group relative inline-flex overflow-hidden rounded-3xl border border-line bg-fg/[0.03] px-7 py-6 shadow-[0_20px_60px_-20px_rgba(110,55,250,0.55)]"
           >
             {/* Soft glow in the logo's own brand colours */}
             <span
               aria-hidden
               className="absolute -inset-10 bg-[radial-gradient(circle_at_20%_50%,rgba(110,55,250,0.25),transparent_55%),radial-gradient(circle_at_80%_50%,rgba(50,187,185,0.18),transparent_55%)] opacity-60 transition-opacity duration-500 group-hover:opacity-100"
             />
-            <img src={company.logo} alt={company.company} className="relative h-9 w-auto md:h-10" />
+            <ThemedImage src={company.logo} alt={company.company} className="relative h-9 w-auto md:h-10" />
           </motion.h3>
         ) : (
           <h3 className="font-display text-4xl font-semibold tracking-tight">{company.company}</h3>
@@ -131,13 +132,13 @@ function CompanyBlock({ company }) {
         <p className="mt-6 font-mono text-sm text-muted">
           {fmt(last.start)} — {company.roles[0].end ? fmt(company.roles[0].end) : "Present"}
         </p>
-        <p className="mt-1 font-mono text-sm text-accent">{tenure}</p>
+        <p className="mt-1 font-mono text-sm text-accent-fg">{tenure}</p>
         {company.url && (
           <a
             href={company.url}
             target="_blank"
             rel="noreferrer"
-            className="group mt-6 inline-flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-accent"
+            className="group mt-6 inline-flex items-center gap-2 text-sm text-fg/70 transition-colors hover:text-accent-fg"
           >
             Visit {company.company}
             <FiArrowUpRight className="transition-transform duration-300 group-hover:rotate-45" />
@@ -166,7 +167,7 @@ function CompanyBlock({ company }) {
               >
                 <span
                   className={`h-2.5 w-2.5 rounded-full ${
-                    role.end === null ? "bg-accent shadow-[0_0_20px_4px_rgba(200,255,61,0.6)]" : "bg-white/40"
+                    role.end === null ? "bg-accent shadow-[0_0_20px_4px_rgba(200,255,61,0.6)]" : "bg-fg/40"
                   }`}
                 />
               </motion.span>
@@ -180,7 +181,7 @@ function CompanyBlock({ company }) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.2 }}
-                  className="mt-6 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-accent"
+                  className="mt-6 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-accent-fg"
                 >
                   <motion.span
                     animate={{ y: [0, -3, 0] }}

@@ -107,7 +107,7 @@ export default function Hero({ ready }) {
             </h1>
 
             <motion.p {...show(0.7)} className="mt-8 font-display text-2xl font-medium md:text-4xl">
-              <span className="text-white/60">I'm a </span>
+              <span className="text-fg/60">I'm a </span>
               <RotatingRole ready={ready} />
             </motion.p>
 
@@ -122,7 +122,7 @@ export default function Hero({ ready }) {
                   target="_blank"
                   rel="noreferrer"
                   data-cursor="Open"
-                  className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-accent px-7 py-4 font-medium text-ink"
+                  className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-accent px-7 py-4 font-medium text-on-accent"
                 >
                   <span className="absolute inset-0 -translate-x-full bg-white transition-transform duration-500 ease-out group-hover:translate-x-0" />
                   <span className="relative">Download CV</span>
@@ -132,7 +132,7 @@ export default function Hero({ ready }) {
               <Magnetic>
                 <button
                   onClick={() => scrollToId("projects")}
-                  className="group inline-flex items-center gap-3 rounded-full border border-line px-7 py-4 font-medium transition-colors hover:border-white/40 hover:bg-white/5"
+                  className="group inline-flex items-center gap-3 rounded-full border border-line px-7 py-4 font-medium transition-colors hover:border-fg/40 hover:bg-fg/5"
                 >
                   See my work
                   <FiArrowDownRight className="transition-transform duration-300 group-hover:rotate-45" />
@@ -151,7 +151,7 @@ export default function Hero({ ready }) {
                         target="_blank"
                         rel="noreferrer"
                         aria-label={s.name}
-                        className="grid h-12 w-12 place-items-center rounded-full border border-line text-lg text-white/70 transition-all duration-300 hover:-translate-y-1 hover:border-accent hover:bg-accent hover:text-ink"
+                        className="grid h-12 w-12 place-items-center rounded-full border border-line text-lg text-fg/70 transition-all duration-300 hover:-translate-y-1 hover:border-accent hover:bg-accent hover:text-on-accent"
                       >
                         <Icon />
                       </a>
@@ -188,7 +188,7 @@ export default function Hero({ ready }) {
               {orbitBadges.map((b) => (
                 <motion.span
                   key={b.label}
-                  className={`glass absolute rounded-full px-4 py-2 font-mono text-xs text-white/90 shadow-xl ${b.className}`}
+                  className={`glass absolute rounded-full px-4 py-2 font-mono text-xs text-fg/90 shadow-xl ${b.className}`}
                   style={{ z: 80 }}
                   initial={{ opacity: 0, scale: 0 }}
                   animate={ready ? { opacity: 1, scale: 1, y: [0, -10, 0] } : {}}
@@ -198,7 +198,7 @@ export default function Hero({ ready }) {
                     y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: b.delay },
                   }}
                 >
-                  <span className="mr-2 text-accent">◆</span>
+                  <span className="mr-2 text-accent-fg">◆</span>
                   {b.label}
                 </motion.span>
               ))}

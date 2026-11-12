@@ -43,7 +43,7 @@ export default function Preloader({ onDone }) {
       </div>
 
       <div className="flex items-end justify-between gap-6">
-        <div className="h-[1.2em] overflow-hidden font-display text-3xl text-white/80 md:text-5xl">
+        <div className="h-[1.2em] overflow-hidden font-display text-3xl text-fg/80 md:text-5xl">
           <motion.span
             key={word}
             initial={{ y: "100%" }}
@@ -57,7 +57,7 @@ export default function Preloader({ onDone }) {
         </div>
         <span className="font-display text-[22vw] font-bold leading-[0.8] tracking-tighter tabular-nums md:text-[14vw]">
           {count}
-          <span className="text-accent">%</span>
+          <span className="text-accent-fg">%</span>
         </span>
       </div>
 

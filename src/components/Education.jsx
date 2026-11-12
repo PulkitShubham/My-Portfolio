@@ -76,11 +76,11 @@ export default function Education() {
                       <div className="min-w-0">
                         <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted md:hidden">{item.date}</p>
                         <h3 className="font-display text-xl font-semibold leading-tight">{item.school}</h3>
-                        <p className="mt-1 text-sm text-white/70">{item.degree.replace(/\*$/, "").trim()}</p>
+                        <p className="mt-1 text-sm text-fg/70">{item.degree.replace(/\*$/, "").trim()}</p>
                       </div>
                     </div>
                     <p className="mt-5 text-sm leading-relaxed text-muted">{item.desc}</p>
-                    <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-accent/10 px-3 py-1 font-mono text-xs text-accent">
+                    <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-accent/10 px-3 py-1 font-mono text-xs text-accent-fg">
                       Grade · {item.grade}
                     </div>
                   </SpotlightCard>

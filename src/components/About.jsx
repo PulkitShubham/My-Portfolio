@@ -62,9 +62,9 @@ export default function About() {
             >
               <div className="font-display text-5xl font-bold tracking-tighter md:text-7xl">
                 <Counter to={s.value} />
-                <span className="text-accent">{s.suffix}</span>
+                <span className="text-accent-fg">{s.suffix}</span>
               </div>
-              <div className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-muted transition-colors group-hover:text-white">
+              <div className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-muted transition-colors group-hover:text-fg">
                 {s.label}
               </div>
             </motion.div>
@@ -89,7 +89,7 @@ export default function About() {
                 <div className="mb-10 flex items-start justify-between">
                   <motion.span
                     whileHover={{ rotate: -12, scale: 1.1 }}
-                    className="grid h-12 w-12 place-items-center rounded-2xl bg-accent/10 text-xl text-accent"
+                    className="grid h-12 w-12 place-items-center rounded-2xl bg-accent/10 text-xl text-accent-fg"
                   >
                     <Icon />
                   </motion.span>

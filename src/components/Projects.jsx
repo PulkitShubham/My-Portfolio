@@ -37,7 +37,7 @@ export default function Projects() {
                   role="tab"
                   aria-selected={active}
                   onClick={() => setFilter(f.id)}
-                  className={`relative shrink-0 rounded-full px-3 py-2 text-sm transition-colors sm:px-4 ${active ? "text-ink" : "text-white/70 hover:text-white"}`}
+                  className={`relative shrink-0 rounded-full px-3 py-2 text-sm transition-colors sm:px-4 ${active ? "text-on-accent" : "text-fg/70 hover:text-fg"}`}
                 >
                   {active && (
                     <motion.span

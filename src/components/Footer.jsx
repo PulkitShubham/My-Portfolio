@@ -31,7 +31,7 @@ export default function Footer() {
           <Magnetic>
             <button
               onClick={() => scrollToId("home")}
-              className="group flex items-center gap-3 rounded-full border border-line px-5 py-3 text-sm transition-colors hover:border-accent hover:text-accent"
+              className="group flex items-center gap-3 rounded-full border border-line px-5 py-3 text-sm transition-colors hover:border-accent hover:text-accent-fg"
             >
               Back to top
               <FiArrowUp className="transition-transform duration-300 group-hover:-translate-y-1" />
@@ -47,7 +47,7 @@ export default function Footer() {
         whileInView={{ y: "0%", opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="mt-10 select-none whitespace-nowrap text-center font-display text-[17vw] font-bold uppercase leading-[0.8] tracking-tighter text-white/[0.04]"
+        className="mt-10 select-none whitespace-nowrap text-center font-display text-[17vw] font-bold uppercase leading-[0.8] tracking-tighter text-fg/[0.04]"
       >
         {profile.firstName} {profile.lastName}
       </motion.div>

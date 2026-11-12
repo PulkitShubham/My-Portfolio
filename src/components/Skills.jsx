@@ -12,7 +12,7 @@ function SkillIcon({ src, name }) {
   return (
     <span className="grid h-7 w-7 place-items-center rounded-full bg-white/90 p-1 transition-transform duration-500 group-hover:rotate-[360deg]">
       {failed ? (
-        <span className="font-display text-xs font-bold text-ink">{name[0]}</span>
+        <span className="font-display text-xs font-bold text-on-accent">{name[0]}</span>
       ) : (
         <img src={src} alt="" loading="lazy" onError={() => setFailed(true)} className="h-full w-full object-contain" />
       )}
@@ -67,7 +67,7 @@ export default function Skills() {
                       show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 260, damping: 20 } },
                     }}
                     whileHover={{ y: -4 }}
-                    className="group flex items-center gap-2 rounded-full border border-line bg-white/[0.03] py-1.5 pl-1.5 pr-4 text-sm text-white/80 transition-colors hover:border-accent/50 hover:text-white"
+                    className="group flex items-center gap-2 rounded-full border border-line bg-fg/[0.03] py-1.5 pl-1.5 pr-4 text-sm text-fg/80 transition-colors hover:border-accent/50 hover:text-fg"
                   >
                     <SkillIcon src={s.image} name={s.name.trim()} />
                     {s.name.trim()}

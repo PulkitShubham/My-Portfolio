@@ -57,7 +57,7 @@ export default function Cursor() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-[90]" style={{ opacity: visible ? 1 : 0 }}>
       <motion.div
-        className="fixed left-0 top-0 flex items-center justify-center rounded-full border border-accent/70 mix-blend-difference"
+        className="fixed left-0 top-0 flex items-center justify-center rounded-full border border-accent/70 mix-blend-difference light:border-accent-fg/70 light:mix-blend-normal"
         style={{ x: rx, y: ry, translateX: "-50%", translateY: "-50%" }}
         animate={{
           width: size,
@@ -66,10 +66,10 @@ export default function Cursor() {
         }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
       >
-        {label && <span className="font-mono text-[10px] font-medium uppercase tracking-widest text-ink">{label}</span>}
+        {label && <span className="font-mono text-[10px] font-medium uppercase tracking-widest text-on-accent">{label}</span>}
       </motion.div>
       <motion.div
-        className="fixed left-0 top-0 h-1.5 w-1.5 rounded-full bg-accent"
+        className="fixed left-0 top-0 h-1.5 w-1.5 rounded-full bg-accent light:bg-accent-fg"
         style={{ x, y, translateX: "-50%", translateY: "-50%" }}
         animate={{ scale: hovering ? 0 : 1 }}
       />

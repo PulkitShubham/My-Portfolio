@@ -15,7 +15,7 @@ export const profile = {
     title: "MTS-1", // short form, used on small screens
     fullTitle: "Member of Technical Staff - 1",
     company: "Nielsen",
-    logo: "/nielsen-light.svg",
+    logo: { onDark: "/nielsen-on-dark.svg", onLight: "/nielsen-on-light.svg" },
     url: "https://www.nielsen.com",
   },
 };
@@ -38,9 +38,9 @@ export const navLinks = [
 ];
 
 export const stats = [
-  { value: 2, suffix: "K+", label: "LinkedIn connections" },
-  { value: 350, suffix: "+", label: "DSA problems solved" },
-  { value: 8, suffix: "+", label: "Projects shipped" },
+  { value: 5.2, suffix: "K+", label: "LinkedIn connections" },
+  { value: 1000, suffix: "+", label: "DSA problems solved" },
+  { value: 12, suffix: "+", label: "Projects shipped" },
   { value: 6, suffix: "x", label: "IMO gold medals" },
 ];
 
@@ -80,7 +80,7 @@ export const experience = [
     company: "Nielsen",
     url: "https://www.nielsen.com",
     // Light variant of the 2021 wordmark, recoloured for dark backgrounds.
-    logo: "/nielsen-light.svg",
+    logo: { onDark: "/nielsen-on-dark.svg", onLight: "/nielsen-on-light.svg" },
     roles: [
       {
         title: "Member of Technical Staff - 1",
@@ -220,7 +220,7 @@ export const education = [
     img: "/lpu.png",
     school: "Lovely Professional University",
     date: "Aug 2022 - July 2026",
-    grade: "8.78 CGPA",
+    grade: "9.02 CGPA",
     desc: "Pursuing a B.Tech in Computer Science and Engineering at Lovely Professional University, specializing in Data Science. With a strong academic foundation and hands-on experience in programming, machine learning, and software development, I am committed to mastering technical skills and contributing to innovative solutions in the IT industry.",
     degree: "Bachelor of Technology - BTech, Computer Science and Engineering*",
   },

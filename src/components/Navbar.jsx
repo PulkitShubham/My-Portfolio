@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/
 import { navLinks, socials } from "../data/content";
 import { lockScroll, scrollToId } from "../lib/scroll";
 import { socialIcons } from "./ui/icons";
+import ThemeToggle from "./ThemeToggle";
 
 const ease = [0.22, 1, 0.36, 1];
 
@@ -76,7 +77,7 @@ export default function Navbar({ ready }) {
               className="group flex items-center gap-2 rounded-full px-3 py-1.5"
               aria-label="Back to top"
             >
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-accent font-display text-sm font-bold text-ink transition-transform duration-500 group-hover:rotate-[360deg]">
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-accent font-display text-sm font-bold text-on-accent transition-transform duration-500 group-hover:rotate-[360deg]">
                 PS
               </span>
               <span className="hidden font-display text-sm font-medium sm:block">Pulkit Shubham</span>
@@ -88,14 +89,14 @@ export default function Navbar({ ready }) {
                   <button
                     onClick={() => go(link.id)}
                     className={`relative rounded-full px-4 py-2 text-sm transition-colors ${
-                      active === link.id ? "text-ink" : "text-white/70 hover:text-white"
+                      active === link.id ? "text-ink" : "text-fg/70 hover:text-fg"
                     }`}
                     aria-current={active === link.id ? "true" : undefined}
                   >
                     {active === link.id && (
                       <motion.span
                         layoutId="nav-pill"
-                        className="absolute inset-0 rounded-full bg-white"
+                        className="absolute inset-0 rounded-full bg-fg"
                         transition={{ type: "spring", stiffness: 400, damping: 32 }}
                       />
                     )}
@@ -106,9 +107,10 @@ export default function Navbar({ ready }) {
             </ul>
 
             <div className="flex items-center gap-2">
+              <ThemeToggle />
               <button
                 onClick={() => go("contact")}
-                className="hidden rounded-full bg-accent px-5 py-2 text-sm font-medium text-ink transition-transform hover:scale-105 sm:block"
+                className="hidden rounded-full bg-accent px-5 py-2 text-sm font-medium text-on-accent transition-transform hover:scale-105 sm:block"
               >
                 Let's talk
               </button>
@@ -121,11 +123,11 @@ export default function Navbar({ ready }) {
               >
                 <motion.span
                   animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }}
-                  className="absolute h-px w-4 bg-white"
+                  className="absolute h-px w-4 bg-fg"
                 />
                 <motion.span
                   animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }}
-                  className="absolute h-px w-4 bg-white"
+                  className="absolute h-px w-4 bg-fg"
                 />
               </button>
             </div>
@@ -156,8 +158,8 @@ export default function Navbar({ ready }) {
                     onClick={() => go(link.id)}
                     className="flex w-full items-baseline gap-4 py-1 text-left font-display text-5xl font-semibold"
                   >
-                    <span className="font-mono text-xs text-accent">0{i + 1}</span>
-                    <span className={active === link.id ? "text-accent" : ""}>{link.label}</span>
+                    <span className="font-mono text-xs text-accent-fg">0{i + 1}</span>
+                    <span className={active === link.id ? "text-accent-fg" : ""}>{link.label}</span>
                   </button>
                 </motion.li>
               ))}
