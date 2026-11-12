@@ -9,7 +9,7 @@ export const profile = {
     "Member of Technical Staff at Nielsen and a Computer Science engineer from LPU, specialising in Data Science. I build Android apps, train machine learning models and craft web experiences, driven by a love for technology and a hunger for hard problems.",
   location: "India",
   cv: "/CV.pdf",
-  avatar: "/avtar.png",
+  avatar: "/avatar.jpg",
   // Shown in the hero badge.
   current: {
     title: "MTS-1", // short form, used on small screens
