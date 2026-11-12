@@ -8,6 +8,7 @@ export const profile = {
   tagline:
     "Member of Technical Staff at Nielsen and a Computer Science engineer from LPU, specialising in Data Science. I build Android apps, train machine learning models and craft web experiences, driven by a love for technology and a hunger for hard problems.",
   location: "India",
+  email: "pulkitshubham11@gmail.com",
   cv: "/CV.pdf",
   avatar: "/avatar.jpg",
   // Shown in the hero badge.
@@ -35,6 +36,7 @@ export const navLinks = [
   { id: "education", label: "Journey" },
   { id: "projects", label: "Work" },
   { id: "achievements", label: "Awards" },
+  { id: "terminal", label: "Terminal" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -347,7 +349,7 @@ export const projects = [
   {
     id: 1,
     title: "Connect",
-    date: "September 2024 - Present",
+    date: "September 2024 - December 2024",
     description:
       "A Chat Application using Kotlin that enables users to communicate in real-time. The app features a sleek, user-friendly interface with functionalities like sign-up, sign-in, and OTP authentication integrated via Firebase. Users can send and receive messages instantly, with conversations stored securely in a cloud database. The app also supports user profile management and provides a seamless chat experience with notifications for new messages. ",
     image: "/connect.png",

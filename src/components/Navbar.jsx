@@ -83,7 +83,7 @@ export default function Navbar({ ready }) {
               <span className="hidden font-display text-sm font-medium sm:block">Pulkit Shubham</span>
             </button>
 
-            <ul className="hidden items-center gap-1 md:flex">
+            <ul className="hidden items-center gap-1 lg:flex">
               {navLinks.slice(1, -1).map((link) => (
                 <li key={link.id}>
                   <button
@@ -116,7 +116,7 @@ export default function Navbar({ ready }) {
               </button>
               <button
                 onClick={() => setOpen((o) => !o)}
-                className="relative grid h-10 w-10 place-items-center rounded-full border border-line md:hidden"
+                className="relative grid h-10 w-10 place-items-center rounded-full border border-line lg:hidden"
                 aria-label={open ? "Close menu" : "Open menu"}
                 aria-expanded={open}
                 aria-controls="mobile-menu"
@@ -143,7 +143,7 @@ export default function Navbar({ ready }) {
             animate={{ clipPath: "circle(150% at calc(100% - 44px) 40px)" }}
             exit={{ clipPath: "circle(0% at calc(100% - 44px) 40px)" }}
             transition={{ duration: 0.7, ease }}
-            className="fixed inset-0 z-40 flex flex-col justify-between bg-elevated px-6 pb-10 pt-28 md:hidden"
+            className="fixed inset-0 z-40 flex flex-col justify-between bg-elevated px-6 pb-10 pt-28 lg:hidden"
           >
             <ul className="flex flex-col gap-2">
               {navLinks.map((link, i) => (

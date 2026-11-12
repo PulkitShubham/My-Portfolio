@@ -12,31 +12,11 @@ import {
 } from "react-icons/fi";
 import { experience } from "../data/content";
 import SectionHeading from "./ui/SectionHeading";
+import { formatDuration, formatMonthYear as fmt, monthsBetween } from "../lib/dates";
 import SpotlightCard from "./ui/SpotlightCard";
 import ThemedImage from "./ui/ThemedImage";
 
 const ease = [0.22, 1, 0.36, 1];
-
-// Parse YYYY-MM-DD as a local date (avoids UTC off-by-one-day shifts).
-const parse = (iso) => {
-  const [y, m, d] = iso.split("-").map(Number);
-  return new Date(y, m - 1, d);
-};
-
-const fmt = (iso) => parse(iso).toLocaleDateString("en-US", { month: "short", year: "numeric" });
-
-/** Inclusive month count, LinkedIn-style (Mar 2025 – Aug 2026 = 1 yr 6 mos). */
-function monthsBetween(start, end) {
-  const a = parse(start);
-  const b = end ? parse(end) : new Date();
-  return Math.max(1, (b.getFullYear() - a.getFullYear()) * 12 + (b.getMonth() - a.getMonth()) + 1);
-}
-
-function formatDuration(months) {
-  const y = Math.floor(months / 12);
-  const m = months % 12;
-  return [y && `${y} yr${y > 1 ? "s" : ""}`, m && `${m} mo${m > 1 ? "s" : ""}`].filter(Boolean).join(" ");
-}
 
 function RoleCard({ role, index }) {
   const current = role.end === null;
