@@ -11,6 +11,7 @@ import { FiArrowDownRight, FiDownload } from "react-icons/fi";
 import { profile, socials } from "../data/content";
 import { scrollToId } from "../lib/scroll";
 import Magnetic from "./ui/Magnetic";
+import CurrentRoleBadge from "./CurrentRoleBadge";
 import SplitText from "./ui/SplitText";
 import { socialIcons } from "./ui/icons";
 
@@ -87,16 +88,7 @@ export default function Hero({ ready }) {
         <div className="grid items-center gap-14 lg:grid-cols-[1.4fr_1fr]">
           {/* ---- Copy ---- */}
           <div>
-            <motion.div
-              {...show(0.1)}
-              className="mb-8 inline-flex items-center gap-3 rounded-full border border-line bg-white/[0.03] px-4 py-2 font-mono text-xs uppercase tracking-[0.2em] text-white/70"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-              </span>
-              Open to opportunities
-            </motion.div>
+            <CurrentRoleBadge motionProps={show(0.1)} />
 
             <h1 className="font-display font-bold uppercase leading-[0.85] tracking-tighter">
               <SplitText

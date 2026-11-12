@@ -16,7 +16,7 @@ export default function Education() {
     <section id="education" className="relative py-28 md:py-40">
       <div className="container-x">
         <SectionHeading
-          index="03"
+          index="04"
           label="Journey"
           title="Where I've learned."
           desc="My education has been a journey of self-discovery and growth."

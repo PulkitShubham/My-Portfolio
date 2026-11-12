@@ -127,7 +127,7 @@ export default function Contact() {
               viewport={{ once: true }}
               className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-accent"
             >
-              05 — Get in touch
+              06 — Get in touch
             </motion.p>
             <h2 className="font-display text-6xl font-bold uppercase leading-[0.9] tracking-tighter md:text-8xl">
               <SplitText text="Let's work" className="block" />

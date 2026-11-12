@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Marquee from "./components/Marquee";
 import About from "./components/About";
+import Experience from "./components/Experience";
 import Skills from "./components/Skills";
 import Education from "./components/Education";
 import Projects from "./components/Projects";
@@ -42,6 +43,7 @@ export default function App() {
         <Hero ready={!loading} />
         <Marquee />
         <About />
+        <Experience />
         <Skills />
         <Education />
         <Projects />

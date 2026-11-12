@@ -6,10 +6,18 @@ export const profile = {
   lastName: "Shubham",
   roles: ["Android Developer", "C++ Programmer", "Data Science Trailblazer", "ML Enthusiast"],
   tagline:
-    "Computer Science engineer at LPU, specialising in Data Science. I build Android apps, train machine learning models and craft web experiences, driven by a love for technology and a hunger for hard problems.",
+    "Member of Technical Staff at Nielsen and a Computer Science engineer from LPU, specialising in Data Science. I build Android apps, train machine learning models and craft web experiences, driven by a love for technology and a hunger for hard problems.",
   location: "India",
   cv: "/CV.pdf",
   avatar: "/avtar.png",
+  // Shown in the hero badge.
+  current: {
+    title: "MTS-1", // short form, used on small screens
+    fullTitle: "Member of Technical Staff - 1",
+    company: "Nielsen",
+    logo: "/nielsen-light.svg",
+    url: "https://www.nielsen.com",
+  },
 };
 
 export const socials = [
@@ -22,6 +30,7 @@ export const socials = [
 export const navLinks = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
+  { id: "experience", label: "Experience" },
   { id: "skills", label: "Skills" },
   { id: "education", label: "Journey" },
   { id: "projects", label: "Work" },
@@ -63,6 +72,36 @@ export const highlights = [
   },
 ];
 
+// Work experience, grouped by company. Roles are listed newest first.
+// `end: null` means the role is current. Dates are ISO (YYYY-MM-DD).
+// Add bullet points to `points` and technologies to `tags`; empty lists are hidden.
+export const experience = [
+  {
+    company: "Nielsen",
+    url: "https://www.nielsen.com",
+    // Light variant of the 2021 wordmark, recoloured for dark backgrounds.
+    logo: "/nielsen-light.svg",
+    roles: [
+      {
+        title: "Member of Technical Staff - 1",
+        type: "Full-time",
+        start: "2026-09-01",
+        end: null,
+        points: [],
+        tags: [],
+      },
+      {
+        title: "Software Engineer Intern",
+        type: "Internship",
+        start: "2025-03-03",
+        end: "2026-08-30",
+        points: [],
+        tags: [],
+      },
+    ],
+  },
+];
+
 export const projectFilters = [
   { id: "all", label: "All" },
   { id: "web app", label: "Web" },
@@ -80,190 +119,101 @@ export const emailConfig = {
 // ---------------------------------------------------------------------------
 // Skills / education / projects
 // ---------------------------------------------------------------------------
+// Icons for newer skills come from Devicon, pinned to a release so they can't change underneath us.
+const devicon = (path) => `https://cdn.jsdelivr.net/npm/devicon@2.18.0/icons/${path}.svg`;
+
+// Order matters: it pairs with the bento column spans in Skills.jsx
+// (wide cards at positions 1, 6 and 9 hold the longest lists).
 export const skills = [
   {
     title: "Programming Languages",
     skills: [
-      {
-        name: "C++",
-        image:
-          "https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg",
-      },
-      {
-        name: "C",
-        image: "https://upload.wikimedia.org/wikipedia/commons/1/19/C_Logo.png",
-      },
-      {
-        name: "Java",
-        image: "https://www.vectorlogo.zone/logos/java/java-icon.svg",
-      },
-      {
-        name: "Python",
-        image: "https://www.vectorlogo.zone/logos/python/python-icon.svg",
-      },
-      {
-        name: "R",
-        image: "https://www.r-project.org/logo/Rlogo.png",
-      },
-      {
-        name: "Kotlin",
-        image:
-          "https://www.vectorlogo.zone/logos/kotlinlang/kotlinlang-icon.svg",
-      },
+      { name: "C++", image: "https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg" },
+      { name: "C", image: "https://upload.wikimedia.org/wikipedia/commons/1/19/C_Logo.png" },
+      { name: "Java", image: "https://www.vectorlogo.zone/logos/java/java-icon.svg" },
+      { name: "Python", image: "https://www.vectorlogo.zone/logos/python/python-icon.svg" },
+      { name: "TypeScript", image: devicon("typescript/typescript-original") },
+      { name: "Kotlin", image: "https://www.vectorlogo.zone/logos/kotlinlang/kotlinlang-icon.svg" },
+      { name: "Swift", image: devicon("swift/swift-original") },
+      { name: "R", image: "https://www.r-project.org/logo/Rlogo.png" },
     ],
   },
-
   {
     title: "Data Analysis & Visualization",
     skills: [
-      {
-        name: "MS Excel",
-        image:
-          "https://upload.wikimedia.org/wikipedia/commons/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg",
-      },
-      {
-        name: "Tableau",
-        image:
-          "https://upload.wikimedia.org/wikipedia/commons/4/4b/Tableau_Logo.png",
-      },
-      {
-        name: "Power BI",
-        image:
-          "https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg",
-      },
-      {
-        name: "R Studio",
-        image: "/rstudio.svg",
-      },
-    ],
-  },
-  {
-    title: "Frameworks",
-    skills: [
-      {
-        name: "Flask",
-        image:
-          "https://www.vectorlogo.zone/logos/pocoo_flask/pocoo_flask-ar21.svg",
-      },
-      {
-        name: "Django",
-        image:
-          "https://static.djangoproject.com/img/logos/django-logo-negative.svg",
-      },
-      {
-        name: "react.js",
-        image:
-          "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg",
-      },
-      {
-        name: "node.js",
-        image:
-          "https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg",
-      },
-      {
-        name: "bootstrap",
-        image:
-          "https://upload.wikimedia.org/wikipedia/commons/b/b2/Bootstrap_logo.svg",
-      },
-      {
-        name: "tailwind ",
-        image:
-          "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg",
-      },
-    ],
-  },
-  {
-    title: "Android Development",
-    skills: [
-      {
-        name: "Kotlin",
-        image:
-          "https://www.vectorlogo.zone/logos/kotlinlang/kotlinlang-icon.svg",
-      },
-      {
-        name: "XML",
-        image: "/xml.svg",
-      },
-      {
-        name: "Android Studio",
-        image:
-          "https://upload.wikimedia.org/wikipedia/commons/9/95/Android_Studio_Icon_3.6.svg",
-      },
+      { name: "MS Excel", image: "https://upload.wikimedia.org/wikipedia/commons/e/e3/Microsoft_Office_Excel_%282019%E2%80%932025%29.svg" },
+      { name: "Tableau", image: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Tableau_Logo.png" },
+      { name: "Power BI", image: "https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg" },
+      { name: "R Studio", image: "/rstudio.svg" },
     ],
   },
   {
     title: "Machine Learning",
     skills: [
-      {
-        name: "Google Colab",
-        image:
-          "https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Colaboratory_SVG_Logo.svg",
-      },
-      {
-        name: "Jupyter Notebook",
-        image: "https://www.vectorlogo.zone/logos/jupyter/jupyter-icon.svg",
-      },
-
-      {
-        name: "TensorFlow",
-        image:
-          "https://www.vectorlogo.zone/logos/tensorflow/tensorflow-icon.svg",
-      },
-      {
-        name: "Hugging Face",
-        image:
-          "https://cdn.brandfetch.io/idGqKHD5xE/w/800/h/741/theme/dark/symbol.png?k=bfHSJFAPEGy",
-      },
+      { name: "Google Colab", image: "https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Colaboratory_SVG_Logo.svg" },
+      { name: "Jupyter Notebook", image: "https://www.vectorlogo.zone/logos/jupyter/jupyter-icon.svg" },
+      { name: "TensorFlow", image: "https://www.vectorlogo.zone/logos/tensorflow/tensorflow-icon.svg" },
+      { name: "Hugging Face", image: "https://cdn.brandfetch.io/idGqKHD5xE/w/800/h/741/theme/dark/symbol.png?k=bfHSJFAPEGy" },
+    ],
+  },
+  {
+    title: "Mobile Development",
+    skills: [
+      { name: "React Native", image: devicon("react/react-original") },
+      { name: "Kotlin", image: "https://www.vectorlogo.zone/logos/kotlinlang/kotlinlang-icon.svg" },
+      { name: "Swift", image: devicon("swift/swift-original") },
+      { name: "XML", image: "/xml.svg" },
+      { name: "Android Studio", image: "https://upload.wikimedia.org/wikipedia/commons/9/95/Android_Studio_Icon_3.6.svg" },
     ],
   },
   {
     title: "Databases",
     skills: [
-      {
-        name: "Firebase",
-        image: "https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg",
-      },
-      {
-        name: "MongoDB",
-        image: "https://www.vectorlogo.zone/logos/mongodb/mongodb-icon.svg",
-      },
-      {
-        name: "MYSQL",
-        image: "https://www.vectorlogo.zone/logos/mysql/mysql-official.svg",
-      },
+      { name: "PostgreSQL", image: devicon("postgresql/postgresql-original") },
+      { name: "MySQL", image: "https://www.vectorlogo.zone/logos/mysql/mysql-official.svg" },
+      { name: "MongoDB", image: "https://www.vectorlogo.zone/logos/mongodb/mongodb-icon.svg" },
+      { name: "Firebase", image: "https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg" },
     ],
   },
   {
-    title: "Others",
+    title: "Frameworks & Libraries",
     skills: [
-      {
-        name: "Git",
-        image:
-          "https://img.icons8.com/?size=100&id=20906&format=png&color=000000",
-      },
-      {
-        name: "GitHub",
-        image:
-          "https://img.icons8.com/?size=100&id=ARy6tFUfwclb&format=png&color=000000",
-      },
-      {
-        name: "VS Code",
-        image:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/512px-Visual_Studio_Code_1.35_icon.svg.png?20210804221519",
-      },
-      {
-        name: "Adobe XD",
-        image:
-          "https://img.icons8.com/?size=100&id=4VVL78edhbW9&format=png&color=000000",
-      },
-      {
-        name: "Figma",
-        image:
-          "https://img.icons8.com/?size=100&id=W0YEwBDDfTeu&format=png&color=000000",
-      },
+      { name: "React.js", image: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" },
+      { name: "Apollo GraphQL", image: devicon("apollographql/apollographql-original") },
+      { name: "Node.js", image: "https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" },
+      { name: "Flask", image: devicon("flask/flask-original") },
+      { name: "Django", image: "https://static.djangoproject.com/img/logos/django-logo-negative.svg" },
+      { name: "Tailwind CSS", image: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" },
+      { name: "Bootstrap", image: "https://upload.wikimedia.org/wikipedia/commons/b/b2/Bootstrap_logo.svg" },
+    ],
+  },
+  {
+    title: "Testing",
+    skills: [
+      { name: "Vitest", image: devicon("vitest/vitest-original") },
+      { name: "Cypress", image: devicon("cypressio/cypressio-original") },
+    ],
+  },
+  {
+    title: "Cloud & DevOps",
+    skills: [
+      { name: "AWS", image: devicon("amazonwebservices/amazonwebservices-original") },
+      { name: "Docker", image: devicon("docker/docker-original") },
+      { name: "GitLab", image: devicon("gitlab/gitlab-original") },
+    ],
+  },
+  {
+    title: "Tools",
+    skills: [
+      { name: "Git", image: devicon("git/git-original") },
+      { name: "GitHub", image: devicon("github/github-original") },
+      { name: "VS Code", image: devicon("vscode/vscode-original") },
+      { name: "Figma", image: devicon("figma/figma-original") },
+      { name: "Adobe XD", image: devicon("xd/xd-original") },
     ],
   },
 ];
+
 export const education = [
   {
     id: 0,

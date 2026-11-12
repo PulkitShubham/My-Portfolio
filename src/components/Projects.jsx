@@ -20,7 +20,7 @@ export default function Projects() {
       <div className="container-x">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <SectionHeading
-            index="04"
+            index="05"
             label="Selected work"
             title="Things I've built."
             desc="From web apps to Android apps and machine learning models. Click any card to dive in."

@@ -20,15 +20,16 @@ function SkillIcon({ src, name }) {
   );
 }
 
-// Column spans that tile 7 cards as 2+1+1 / 1+1+2 / 4 on large screens.
-const spans = ["lg:col-span-2", "", "", "", "", "lg:col-span-2", "md:col-span-2 lg:col-span-4"];
+// Column spans that tile 9 cards as 2+1+1 / 1+1+2 / 1+1+2 on large screens.
+// On the 2-column md grid the odd last card spans the full row.
+const spans = ["lg:col-span-2", "", "", "", "", "lg:col-span-2", "", "", "md:col-span-2 lg:col-span-2"];
 
 export default function Skills() {
   return (
     <section id="skills" className="relative py-28 md:py-40">
       <div className="container-x">
         <SectionHeading
-          index="02"
+          index="03"
           label="Skills"
           title="Tools I think with."
           desc="The languages, frameworks and platforms I've been sharpening over the past two years."
