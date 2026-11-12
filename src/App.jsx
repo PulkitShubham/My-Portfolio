@@ -18,6 +18,8 @@ import Achievements from "./components/Achievements";
 import Contact from "./components/Contact";
 import TerminalSection from "./components/terminal/TerminalSection";
 import TerminalPromo from "./components/terminal/TerminalPromo";
+import BackToTerminal from "./components/terminal/BackToTerminal";
+import LocationSection from "./components/location/LocationSection";
 import Footer from "./components/Footer";
 
 export default function App() {
@@ -42,6 +44,7 @@ export default function App() {
       <ScrollProgress />
       <Navbar ready={!loading} />
       <TerminalPromo ready={!loading} />
+      <BackToTerminal />
 
       <main className="relative">
         <Hero ready={!loading} />
@@ -53,6 +56,7 @@ export default function App() {
         <Projects />
         <Achievements />
         <TerminalSection />
+        <LocationSection />
         <Contact />
       </main>
       <Footer />

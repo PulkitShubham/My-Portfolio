@@ -84,7 +84,7 @@ export default function Navbar({ ready }) {
             </button>
 
             <ul className="hidden items-center gap-1 lg:flex">
-              {navLinks.slice(1, -1).map((link) => (
+              {navLinks.slice(1, -1).filter((l) => l.inNav !== false).map((link) => (
                 <li key={link.id}>
                   <button
                     onClick={() => go(link.id)}

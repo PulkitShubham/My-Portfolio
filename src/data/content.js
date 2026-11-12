@@ -7,7 +7,7 @@ export const profile = {
   roles: ["Android Developer", "C++ Programmer", "Data Science Trailblazer", "ML Enthusiast"],
   tagline:
     "Member of Technical Staff at Nielsen and a Computer Science engineer from LPU, specialising in Data Science. I build Android apps, train machine learning models and craft web experiences, driven by a love for technology and a hunger for hard problems.",
-  location: "India",
+  location: "Bengaluru, India",
   email: "pulkitshubham11@gmail.com",
   cv: "/CV.pdf",
   avatar: "/avatar.jpg",
@@ -37,8 +37,22 @@ export const navLinks = [
   { id: "projects", label: "Work" },
   { id: "achievements", label: "Awards" },
   { id: "terminal", label: "Terminal" },
+  { id: "location", label: "Location", inNav: false }, // mobile menu + terminal `cd`, not the desktop bar
   { id: "contact", label: "Contact" },
 ];
+
+// Location section + terminal `whereami` / `weather`.
+export const place = {
+  city: "Bengaluru",
+  nickname: "Namma Bengaluru",
+  region: "Karnataka, India",
+  lat: 12.9716,
+  lng: 77.5946,
+  timezone: "Asia/Kolkata",
+  tzLabel: "IST · UTC+5:30",
+  elevation: "920 m above sea level",
+  fact: "Known as the Garden City and the Silicon Valley of India.",
+};
 
 // From the resume. Rank/participant/PR figures drive the animated stats.
 export const achievements = {

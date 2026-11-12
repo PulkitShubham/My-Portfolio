@@ -20,38 +20,71 @@ import {
   socials,
 } from "../../data/content";
 import { formatDuration, formatMonthYear, monthsBetween } from "../../lib/dates";
+import { LOCATION_REPLAY, emit } from "../../lib/events";
+import { place } from "../../data/content";
+import { Accent, B, Block, Cmd, Cyan, Err, Gap, L, Muted, Rows, Violet, Warn } from "./ui";
+import BugRunner from "./BugRunner";
+import { extraAliases, extraCommands } from "./extras";
+export { Accent, Cyan, Muted, Violet } from "./ui";
 
-/* ---------- output primitives (terminal is always dark, so colours are fixed) ---------- */
-export const Accent = ({ children }) => <span className="text-[#c8ff3d]">{children}</span>;
-export const Cyan = ({ children }) => <span className="text-[#22d3ee]">{children}</span>;
-export const Violet = ({ children }) => <span className="text-[#a78bfa]">{children}</span>;
-export const Muted = ({ children }) => <span className="text-[#7c7c8a]">{children}</span>;
-export const Err = ({ children }) => <span className="text-[#f87171]">{children}</span>;
-export const Warn = ({ children }) => <span className="text-[#facc15]">{children}</span>;
-const B = ({ children }) => <span className="font-semibold text-white">{children}</span>;
-const Cmd = ({ children }) => <span className="rounded bg-white/10 px-1 text-[#c8ff3d]">{children}</span>;
-const L = ({ href, children }) => (
-  <a href={href} target="_blank" rel="noreferrer" className="text-[#22d3ee] underline decoration-[#22d3ee]/40 underline-offset-2 hover:decoration-[#22d3ee]">
-    {children}
-  </a>
-);
-const Block = ({ children }) => <div className="space-y-0.5">{children}</div>;
-const Gap = () => <div className="h-2" />;
-/** Two-column rows that stay aligned, e.g. "whoami   who is Pulkit?" */
-// Stacks on phones; two aligned columns from `sm` up.
-const Rows = ({ rows, w = "9rem" }) => (
-  <div
-    className="grid gap-x-4 gap-y-0.5 sm:[grid-template-columns:minmax(0,var(--k))_minmax(0,1fr)]"
-    style={{ "--k": w }}
-  >
-    {rows.map(([k, v], i) => (
-      <div key={i} className="contents">
-        <div className="mt-1.5 first:mt-0 sm:mt-0 sm:truncate">{k}</div>
-        <div className="min-w-0 pl-3 sm:pl-0">{v}</div>
+/* ---------- unlockable guide ---------- */
+export const GAME_TARGET = 10;
+const GUIDE_KEY = "terminal-guide";
+export const isGuideUnlocked = () => {
+  try {
+    return localStorage.getItem(GUIDE_KEY) === "unlocked";
+  } catch {
+    return false;
+  }
+};
+const unlockGuide = () => {
+  try {
+    localStorage.setItem(GUIDE_KEY, "unlocked");
+  } catch {
+    /* storage blocked: unlocked for this session's output only */
+  }
+};
+
+// Which guide section each core command belongs to (extras declare `group` themselves).
+const CORE_GROUPS = {
+  about: ["whoami", "neofetch", "experience", "skills", "projects", "education", "achievements", "contact", "email", "cv"],
+  nav: ["help", "guide", "cd", "ls", "open", "whereami", "theme", "history", "clear"],
+  system: ["pwd", "date", "echo", "cat"],
+  fun: ["play", "sudo", "rm", "vim", ":q", "exit", "hello"],
+};
+const GROUP_META = [
+  ["about", "👤 About me"],
+  ["nav", "🧭 Navigate"],
+  ["daily", "☕ Daily life"],
+  ["system", "🖥️ System"],
+  ["fun", "🥚 Fun & easter eggs"],
+];
+
+function Guide() {
+  const byGroup = Object.fromEntries(GROUP_META.map(([g]) => [g, []]));
+  for (const [g, names] of Object.entries(CORE_GROUPS)) for (const n of names) if (commands[n]) byGroup[g].push(n);
+  for (const [n, c] of Object.entries(commands)) if (c.group && !byGroup[c.group].includes(n)) byGroup[c.group].push(n);
+  const total = Object.values(byGroup).reduce((x, a) => x + a.length, 0);
+  return (
+    <Block>
+      <div><B>📖 The complete pulkit-os guide</B> <Muted>· {total} commands · aliases work too (tea, coin, htop…)</Muted></div>
+      <Gap />
+      <div className="grid gap-3 md:grid-cols-2">
+        {GROUP_META.map(([g, title]) => (
+          <div key={g} className="rounded-lg border border-white/10 bg-white/[0.02] p-3">
+            <div className="mb-1.5 font-semibold text-white">{title}</div>
+            {byGroup[g].map((n) => (
+              <div key={n} className="flex gap-2">
+                <span className="shrink-0 text-[#c8ff3d]">{n}{commands[n].usage ? ` ${commands[n].usage}` : ""}</span>
+                <span className="min-w-0 truncate text-[#7c7c8a]">{commands[n].desc}</span>
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-);
+    </Block>
+  );
+}
 
 /* ---------- helpers ---------- */
 const nielsen = experience[0];
@@ -171,7 +204,7 @@ export const commands = {
           <Gap />
           <Rows rows={visible.map(([name, c]) => [<Accent key={name}>{name}{c.usage ? ` ${c.usage}` : ""}</Accent>, <Muted key="d">{c.desc}</Muted>])} w="17rem" />
           <Gap />
-          <div><Muted>psst… a few commands aren't listed here. Curious minds might try</Muted> <Cmd>sudo</Cmd><Muted>.</Muted></div>
+          <div>🔒 <Muted>There are 40+ more commands (daily-life, system, easter eggs). Beat</Muted> <Cmd>play</Cmd> <Muted>to unlock the full</Muted> <Cmd>guide</Cmd><Muted>.</Muted></div>
         </Block>
       );
     },
@@ -447,15 +480,67 @@ export const commands = {
   },
   clear: { desc: "clear the screen (Ctrl+L)", run: (_a, ctx) => (ctx.clear(), null) },
 
+  play: {
+    desc: `mini-game: jump ${GAME_TARGET} bugs to unlock the guide`,
+    run: (_a, ctx) => (
+      <BugRunner
+        target={GAME_TARGET}
+        onExit={() => ctx.focus()}
+        onWin={() => {
+          const first = !isGuideUnlocked();
+          unlockGuide();
+          ctx.print(
+            <Block>
+              <div><Accent>🔓 Guide unlocked{first ? "" : " (again)"}.</Accent> <Muted>Run</Muted> <Cmd>guide</Cmd> <Muted>any time.</Muted></div>
+              <Gap />
+              <Guide />
+            </Block>
+          );
+          ctx.focus();
+        }}
+      />
+    ),
+  },
+  guide: {
+    desc: "full command guide (unlock via play)",
+    run: () =>
+      isGuideUnlocked() ? (
+        <Guide />
+      ) : (
+        <Block>
+          <pre className="m-0 leading-tight text-[#facc15]" aria-hidden>{"  ┌───┐\n  │ 🔒│  guide.md is locked\n  └───┘"}</pre>
+          <div>
+            <Muted>Run</Muted> <Cmd>play</Cmd> <Muted>and jump {GAME_TARGET} bugs to unlock the full guide: 40+ commands, including the secret ones.</Muted>
+          </div>
+        </Block>
+      ),
+  },
+  whereami: {
+    desc: "where I'm based (flies the map in)",
+    run: (_a, ctx) => {
+      ctx.scrollTo("location");
+      emit(LOCATION_REPLAY);
+      return (
+        <Block>
+          <div>📍 <B>{place.nickname}</B> <Muted>· {place.region}</Muted></div>
+          <div className="pl-6"><Muted>{place.lat}° N, {place.lng}° E · {place.tzLabel}</Muted></div>
+          <div className="pl-6"><Muted>→ flying to /location…</Muted></div>
+        </Block>
+      );
+    },
+  },
+
   /* ----- utilities kept out of help to keep it short ----- */
-  pwd: { hidden: true, run: () => <div>/home/pulkit/portfolio</div> },
-  date: { hidden: true, run: () => <div>{new Date().toString()}</div> },
-  echo: { hidden: true, run: (args) => <div>{args.join(" ")}</div> },
-  cat: { hidden: true, run: (args) => (args[0] === "resume.pdf" ? <div><Muted>That's a binary file. Try</Muted> <Cmd>open cv</Cmd></div> : <div><Muted>cat: try</Muted> <Cmd>whoami</Cmd> <Muted>instead 🐈</Muted></div>) },
+  pwd: { hidden: true, desc: "print working directory", run: () => <div>/home/pulkit/portfolio</div> },
+  date: { hidden: true, desc: "current date and time", run: () => <div>{new Date().toString()}</div> },
+  echo: { hidden: true, usage: "<text>", desc: "print text", run: (args) => <div>{args.join(" ")}</div> },
+  cat: { hidden: true, usage: "<file>", desc: "read a file (sort of)", run: (args) => (args[0] === "resume.pdf" ? <div><Muted>That's a binary file. Try</Muted> <Cmd>open cv</Cmd></div> : <div><Muted>cat: try</Muted> <Cmd>whoami</Cmd> <Muted>instead 🐈</Muted></div>) },
 
   /* ----- easter eggs ----- */
   sudo: {
     hidden: true,
+    usage: "hire pulkit",
+    desc: "the most important command here",
     run: (args, ctx) => {
       const rest = args.join(" ").toLowerCase();
       if (rest === "hire pulkit" || rest === "hire pulkit shubham" || rest === "hire me")
@@ -465,12 +550,11 @@ export const commands = {
       return <div><Err>recruiter is not in the sudoers file.</Err> <Muted>This incident will be reported… unless you try</Muted> <Cmd>sudo hire pulkit</Cmd></div>;
     },
   },
-  rm: { hidden: true, run: () => <div><Warn>Nice try.</Warn> <Muted>This portfolio is protected by a highly motivated engineer.</Muted></div> },
-  exit: { hidden: true, run: () => <div><Muted>There is no escape. But there is</Muted> <Cmd>contact</Cmd><Muted>.</Muted></div> },
-  vim: { hidden: true, run: () => <div><Muted>You're now trapped in vim. Just kidding — type</Muted> <Cmd>:q</Cmd> <Muted>(or anything else).</Muted></div> },
-  ":q": { hidden: true, run: () => <div><Accent>✓</Accent> <Muted>Escaped vim. Few have done it. Hire them.</Muted></div> },
-  hello: { hidden: true, run: () => <div>👋 Hey there! Run <Cmd>whoami</Cmd> to get to know me.</div> },
-  coffee: { hidden: true, run: () => <div>☕ Brewing… <Muted>Error 418: I'm a teapot. Let's grab a real one —</Muted> <Cmd>contact</Cmd></div> },
+  rm: { hidden: true, usage: "-rf /", desc: "go on, try it", run: () => <div><Warn>Nice try.</Warn> <Muted>This portfolio is protected by a highly motivated engineer.</Muted></div> },
+  exit: { hidden: true, desc: "attempt to leave", run: () => <div><Muted>There is no escape. But there is</Muted> <Cmd>contact</Cmd><Muted>.</Muted></div> },
+  vim: { hidden: true, desc: "open vim (good luck)", run: () => <div><Muted>You're now trapped in vim. Just kidding — type</Muted> <Cmd>:q</Cmd> <Muted>(or anything else).</Muted></div> },
+  ":q": { hidden: true, desc: "escape vim", run: () => <div><Accent>✓</Accent> <Muted>Escaped vim. Few have done it. Hire them.</Muted></div> },
+  hello: { hidden: true, desc: "say hi", run: () => <div>👋 Hey there! Run <Cmd>whoami</Cmd> to get to know me.</div> },
 };
 
 // Aliases resolve to the canonical command.
@@ -487,7 +571,17 @@ export const aliases = {
   about: "whoami",
   man: "help",
   "?": "help",
+  game: "play",
+  dino: "play",
+  runner: "play",
+  locate: "whereami",
+  where: "whereami",
+  map: "whereami",
+  ...extraAliases,
 };
+
+// Daily-life / system / fun commands live in extras.jsx.
+Object.assign(commands, extraCommands);
 // Note: `github`, `linkedin`, `leetcode`, `twitter` also work bare, as shortcuts for `open <name>`.
 
 const visibleNames = () => Object.keys(commands).filter((n) => !commands[n].hidden);
@@ -557,4 +651,4 @@ function completeWord(input, head, prefix, pool) {
 }
 
 /** Suggested commands shown as tappable chips (great on mobile). */
-export const quickCommands = ["help", "whoami", "neofetch", "experience", "skills", "projects --ml", "achievements", "contact"];
+export const quickCommands = ["help", "whoami", "neofetch", "experience", "skills", "projects --ml", "whereami", "weather", "play", "guide"];

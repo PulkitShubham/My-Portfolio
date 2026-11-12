@@ -2,9 +2,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
 import { scrollToId } from "../../lib/scroll";
 import { getTheme, setTheme } from "../../lib/theme";
+import { TERMINAL_FOCUS, TERMINAL_NAVIGATED, TERMINAL_TRY, emit } from "../../lib/events";
 import { Accent, Cyan, Muted, Violet, complete, execute, quickCommands } from "./commands";
 
-export const TERMINAL_TRY_EVENT = "terminal:try";
+export const TERMINAL_TRY_EVENT = TERMINAL_TRY; // kept for existing imports
 
 const reduceMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -97,7 +98,12 @@ export default function Terminal() {
       setBusy(true);
       const ctx = {
         history: [...historyRef.current, trimmed],
-        scrollTo: (id) => scrollToId(id),
+        scrollTo: (id) => {
+          scrollToId(id);
+          if (id !== "terminal") emit(TERMINAL_NAVIGATED, id); // shows the "back to terminal" button
+        },
+        print: (node) => push(entry(null, node)),
+        focus: () => focusInput(),
         setTheme: (t) => setTheme(t),
         getTheme,
         copy: copyText,
@@ -108,8 +114,14 @@ export default function Terminal() {
       if (name === "clear") return; // clear already wiped the screen
       push(entry(trimmed, output));
     },
-    [push]
+    [push, focusInput]
   );
+
+  // Focus requests from the "back to terminal" button.
+  useEffect(() => {
+    window.addEventListener(TERMINAL_FOCUS, focusInput);
+    return () => window.removeEventListener(TERMINAL_FOCUS, focusInput);
+  }, [focusInput]);
 
   /* ----- "Give it a try" from the promo popup: focus and type `help` for the visitor ----- */
   const historyEmptyRef = useRef(true);
@@ -197,7 +209,7 @@ export default function Terminal() {
 
   // Click anywhere in the window to focus the prompt (but don't break text selection or links).
   const onWindowMouseUp = (e) => {
-    if (e.target.closest("a, button")) return;
+    if (e.target.closest("a, button, canvas")) return; // canvas = the game; keep its focus
     if (window.getSelection()?.toString()) return;
     focusInput();
   };
