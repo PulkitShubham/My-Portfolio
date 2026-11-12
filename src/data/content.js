@@ -1,3 +1,85 @@
+// ---------------------------------------------------------------------------
+// Profile & site-wide content
+// ---------------------------------------------------------------------------
+export const profile = {
+  firstName: "Pulkit",
+  lastName: "Shubham",
+  roles: ["Android Developer", "C++ Programmer", "Data Science Trailblazer", "ML Enthusiast"],
+  tagline:
+    "Computer Science engineer at LPU, specialising in Data Science. I build Android apps, train machine learning models and craft web experiences, driven by a love for technology and a hunger for hard problems.",
+  location: "India",
+  cv: "/CV.pdf",
+  avatar: "/avtar.png",
+};
+
+export const socials = [
+  { name: "LinkedIn", href: "https://www.linkedin.com/in/pulkit-shubham/", icon: "linkedin" },
+  { name: "GitHub", href: "https://github.com/PulkitShubham", icon: "github" },
+  { name: "Twitter", href: "https://twitter.com/pulkits990", icon: "twitter" },
+  { name: "LeetCode", href: "https://leetcode.com/pulkit_shubham/", icon: "leetcode" },
+];
+
+export const navLinks = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "skills", label: "Skills" },
+  { id: "education", label: "Journey" },
+  { id: "projects", label: "Work" },
+  { id: "contact", label: "Contact" },
+];
+
+export const stats = [
+  { value: 2, suffix: "K+", label: "LinkedIn connections" },
+  { value: 350, suffix: "+", label: "DSA problems solved" },
+  { value: 8, suffix: "+", label: "Projects shipped" },
+  { value: 6, suffix: "x", label: "IMO gold medals" },
+];
+
+export const highlights = [
+  {
+    icon: "code",
+    title: "CSE @ LPU",
+    text: "Immersed in Computer Science and Engineering at Lovely Professional University.",
+  },
+  {
+    icon: "grad",
+    title: "Strong foundation",
+    text: "Consistently strong results in both 10th and 12th grades.",
+  },
+  {
+    icon: "award",
+    title: "Olympiad gold",
+    text: "Gold Medalist in the International Maths Olympiad for six years.",
+  },
+  {
+    icon: "bulb",
+    title: "Fresh thinking",
+    text: "A passion for intellectual challenges and an innovative approach to responsibilities.",
+  },
+  {
+    icon: "rocket",
+    title: "The mission",
+    text: "Master technical skills and forge a fulfilling career in tech.",
+  },
+];
+
+export const projectFilters = [
+  { id: "all", label: "All" },
+  { id: "web app", label: "Web" },
+  { id: "android app", label: "Android" },
+  { id: "machine learning", label: "ML & Data" },
+];
+
+// EmailJS public identifiers (safe to ship in client code).
+export const emailConfig = {
+  serviceId: "service_hpeo995",
+  templateId: "template_g42lwnv",
+  publicKey: "w2S50GEPJwIeoBxXr",
+};
+
+// ---------------------------------------------------------------------------
+// Skills / education / projects
+// ---------------------------------------------------------------------------
 export const skills = [
   {
     title: "Programming Languages",
@@ -51,7 +133,7 @@ export const skills = [
       },
       {
         name: "R Studio",
-        image: "../rstudio.svg",
+        image: "/rstudio.svg",
       },
     ],
   },
@@ -100,7 +182,7 @@ export const skills = [
       },
       {
         name: "XML",
-        image: "../xml.svg",
+        image: "/xml.svg",
       },
       {
         name: "Android Studio",
@@ -185,7 +267,7 @@ export const skills = [
 export const education = [
   {
     id: 0,
-    img: "../lpu.png",
+    img: "/lpu.png",
     school: "Lovely Professional University",
     date: "Aug 2022 - July 2026",
     grade: "8.78 CGPA",
@@ -194,7 +276,7 @@ export const education = [
   },
   {
     id: 1,
-    img: "../dps.jpg",
+    img: "/dps.jpg",
     school: "Delhi Public School Kashi",
     date: "Apr 2019 - July 2021",
     grade: "94.4%",
@@ -203,7 +285,7 @@ export const education = [
   },
   {
     id: 2,
-    img: "../gvps.jpg",
+    img: "/gvps.jpg",
     school: "Green View Public School",
     date: "Apr 2017 - Apr 2019",
     grade: "98.6%",
@@ -218,7 +300,7 @@ export const projects = [
     date: "Aug 2024 - September 2024",
     description:
       "The AI-Powered Chatbot is an intelligent conversational agent designed to simulate human-like interactions using advanced Natural Language Processing (NLP) techniques. Built using Flask, PyTorch, and the Microsoft DialoGPT model, this chatbot offers dynamic and responsive communication in real-time. The project features a clean, user-friendly interface developed using HTML, CSS, Bootstrap, and jQuery for seamless interaction.",
-    image: "../chatbot.png",
+    image: "/chatbot.png",
     tags: [
       "Python",
       "Flask",
@@ -238,7 +320,7 @@ export const projects = [
     date: "March 2024",
     description:
       "An Excel dashboard for road accident data using macros, pivot tables, and timeline slicers which can be an effective way to analyze and visualize the information.",
-    image: "../dashboard.png",
+    image: "/dashboard.png",
     tags: ["Microsoft Excel", "Kaggle"],
     category: "machine learning",
     github:
@@ -250,7 +332,7 @@ export const projects = [
     date: "September 2024 - Present",
     description:
       "A Chat Application using Kotlin that enables users to communicate in real-time. The app features a sleek, user-friendly interface with functionalities like sign-up, sign-in, and OTP authentication integrated via Firebase. Users can send and receive messages instantly, with conversations stored securely in a cloud database. The app also supports user profile management and provides a seamless chat experience with notifications for new messages. ",
-    image: "../connect.png",
+    image: "/connect.png",
     tags: ["Kotlin", "XML", "Android Studio"],
     category: "android app",
     github: "",
@@ -261,7 +343,7 @@ export const projects = [
     date: "Nov 2022 - Dec 2022",
     description:
       "A non-functional, front-end website built using HTML, CSS, and JavaScript. It features a static user interface for booking train tickets, meals, air tickets, and stays. Integrated with videos and forms, the design is fully responsive but lacks back-end functionality. ",
-    image: "../railway.png",
+    image: "/railway.png",
     tags: ["HTML", "CSS", "JS", "Bootstrap"],
     category: "web app",
     github:
@@ -273,7 +355,7 @@ export const projects = [
     date: "Dec 2023 - Jan 2024",
     description:
       "Developed an image classification model to distinguish between cats and dogs using a Kaggle dataset. Implemented a Convolutional Neural Network (CNN) using TensorFlow and Keras, leveraging generators for efficient image loading and preprocessing. The model was built and trained in Python, utilizing tools like NumPy, Pandas, and OpenCV for data handling, and Matplotlib for visualizing performance. This project showcases deep learning expertise and the application of CNNs for real-world image classification.",
-    image: "../classifier.png",
+    image: "/classifier.png",
     tags: [
       "Tensorflow",
       "Keras",
@@ -292,7 +374,7 @@ export const projects = [
     date: "Dec 2023 - Jan 2024",
     description:
       "Developed an SMS Spam Classifier using Convolutional Neural Networks (CNN) to detect and filter spam messages with high accuracy. The project involved preprocessing text data using tokenization and word embeddings, followed by constructing a CNN model with convolutional and pooling layers to capture key spam-related patterns. ",
-    image: "../sms.png",
+    image: "/sms.png",
     tags: [
       "Python",
       "Jupyter Notebook",
@@ -310,7 +392,7 @@ export const projects = [
     date: "March 2023",
     description:
       "A Rainwater Harvesting website using HTML, CSS, and JavaScript to promote sustainable water conservation practices. The site educates users about the benefits of rainwater harvesting and includes an interactive water conservation calculator. This calculator helps users estimate the total amount of water they can conserve based on factors like roof area and rainfall, encouraging responsible water usage in daily life.",
-    image: "../rainwater.png",
+    image: "/rainwater.png",
     tags: ["HTML", "CSS", "JS", "Bootstrap"],
     category: "web app",
     github: "https://pulkitshubham.github.io/Rainwater-Harvesting/",

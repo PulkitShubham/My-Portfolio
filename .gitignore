@@ -1,1 +1,5 @@
 node_modules
+dist
+.DS_Store
+# Local backup of the old CRA version (already in git history)
+legacy-cra
