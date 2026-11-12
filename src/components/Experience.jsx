@@ -1,6 +1,15 @@
 import { useRef } from "react";
 import { motion, useScroll, useSpring } from "motion/react";
-import { FiArrowUpRight, FiTrendingUp } from "react-icons/fi";
+import {
+  FiActivity,
+  FiArrowUpRight,
+  FiBell,
+  FiHome,
+  FiLayers,
+  FiShield,
+  FiSmartphone,
+  FiTrendingUp,
+} from "react-icons/fi";
 import { experience } from "../data/content";
 import SectionHeading from "./ui/SectionHeading";
 import SpotlightCard from "./ui/SpotlightCard";
@@ -95,6 +104,73 @@ function RoleCard({ role, index }) {
   );
 }
 
+const contributionIcons = {
+  layers: FiLayers,
+  home: FiHome,
+  shield: FiShield,
+  bell: FiBell,
+  activity: FiActivity,
+  phone: FiSmartphone,
+};
+
+/** Grid of contribution cards that stagger in, each with an icon that spins up on hover. */
+function Contributions({ items }) {
+  if (!items?.length) return null;
+  return (
+    <div className="mt-20">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease }}
+        className="mb-8 flex items-end justify-between gap-6"
+      >
+        <div>
+          <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent-fg">Impact</p>
+          <h3 className="mt-2 font-display text-3xl font-semibold tracking-tight md:text-4xl">Key contributions</h3>
+        </div>
+        <span className="hidden font-mono text-sm text-muted sm:block">{String(items.length).padStart(2, "0")} highlights</span>
+      </motion.div>
+
+      <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {items.map((c, i) => {
+          const Icon = contributionIcons[c.icon] ?? FiLayers;
+          return (
+            <li key={c.title} className="h-full">
+              <SpotlightCard
+                initial={{ opacity: 0, y: 40, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.7, delay: (i % 3) * 0.08, ease }}
+                whileHover={{ y: -6 }}
+                className="group flex h-full flex-col p-7"
+              >
+                <div className="mb-8 flex items-start justify-between">
+                  <span className="relative grid h-12 w-12 place-items-center overflow-hidden rounded-2xl bg-accent/10 text-xl text-accent-fg transition-colors duration-500 group-hover:bg-accent group-hover:text-on-accent">
+                    <Icon className="transition-transform duration-500 group-hover:rotate-[-12deg] group-hover:scale-110" />
+                  </span>
+                  <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
+                </div>
+                <h4 className="font-display text-xl font-semibold leading-snug">{c.title}</h4>
+                <p className="mt-3 text-sm leading-relaxed text-muted">{c.text}</p>
+                {c.tags.length > 0 && (
+                  <ul className="mt-auto flex flex-wrap gap-1.5 pt-6">
+                    {c.tags.map((t) => (
+                      <li key={t} className="rounded-full border border-line px-2.5 py-1 font-mono text-[11px] text-fg/70">
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </SpotlightCard>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
 function CompanyBlock({ company }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.75", "end 0.6"] });
@@ -104,6 +180,7 @@ function CompanyBlock({ company }) {
   const tenure = formatDuration(monthsBetween(last.start, company.roles[0].end));
 
   return (
+    <div>
     <div className="grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16">
       {/* Company panel (sticky on desktop) */}
       <motion.div
@@ -133,6 +210,31 @@ function CompanyBlock({ company }) {
           {fmt(last.start)} — {company.roles[0].end ? fmt(company.roles[0].end) : "Present"}
         </p>
         <p className="mt-1 font-mono text-sm text-accent-fg">{tenure}</p>
+        {company.stack?.length > 0 && (
+          <div className="mt-6">
+            <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Stack</p>
+            <motion.ul
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              transition={{ staggerChildren: 0.06, delayChildren: 0.3 }}
+              className="flex max-w-xs flex-wrap gap-2"
+            >
+              {company.stack.map((s) => (
+                <motion.li
+                  key={s}
+                  variants={{
+                    hidden: { opacity: 0, scale: 0.8, y: 8 },
+                    show: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 20 } },
+                  }}
+                  className="rounded-full border border-line bg-fg/[0.03] px-3 py-1 font-mono text-xs text-fg/80"
+                >
+                  {s}
+                </motion.li>
+              ))}
+            </motion.ul>
+          </div>
+        )}
         {company.url && (
           <a
             href={company.url}
@@ -197,6 +299,8 @@ function CompanyBlock({ company }) {
           ))}
         </ol>
       </div>
+    </div>
+    <Contributions items={company.contributions} />
     </div>
   );
 }

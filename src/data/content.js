@@ -34,8 +34,34 @@ export const navLinks = [
   { id: "skills", label: "Skills" },
   { id: "education", label: "Journey" },
   { id: "projects", label: "Work" },
+  { id: "achievements", label: "Awards" },
   { id: "contact", label: "Contact" },
 ];
+
+// From the resume. Rank/participant/PR figures drive the animated stats.
+export const achievements = {
+  gssoc: {
+    label: "Open source",
+    title: "GSSoC 2025",
+    subtitle: "GirlScript Summer of Code",
+    rank: 237,
+    participants: 50000,
+    mergedPRs: 80,
+    text: "Secured a Top 250 rank among 50,000+ global participants, contributing 80+ merged pull requests to open-source projects.",
+  },
+  hackathon: {
+    label: "Hackathon",
+    title: "SAP Labs Hack2Build",
+    badge: "Innovator",
+    text: "Recognized as an Innovator for contributing to the design and development of innovative technology solutions and working prototypes.",
+  },
+  certifications: [
+    { course: "Data Analysis with Tableau", provider: "Salesforce" },
+    { course: "Programming Fundamentals in Kotlin", provider: "Meta" },
+    { course: "Generative AI with LLMs", provider: "DeepLearning.AI" },
+    { course: "Web Development", provider: "Udemy" },
+  ],
+};
 
 export const stats = [
   { value: 5.2, suffix: "K+", label: "LinkedIn connections" },
@@ -81,6 +107,48 @@ export const experience = [
     url: "https://www.nielsen.com",
     // Light variant of the 2021 wordmark, recoloured for dark backgrounds.
     logo: { onDark: "/nielsen-on-dark.svg", onLight: "/nielsen-on-light.svg" },
+    // Technologies named in the contributions below.
+    stack: ["React", "TypeScript", "Apollo GraphQL", "Python FastAPI", "Kotlin"],
+    // From the resume, using the same generic wording (no internal system names).
+    // `icon` keys map to components in Experience.jsx.
+    contributions: [
+      {
+        icon: "layers",
+        title: "Panel Management Platform",
+        text: "Developed and enhanced production-grade internal applications for panel and household data management, supporting audience measurement systems across international markets.",
+        tags: ["React", "TypeScript", "Apollo GraphQL", "Python FastAPI"],
+      },
+      {
+        icon: "home",
+        title: "Household Management System",
+        text: "Designed and implemented a Household Management Component enabling efficient household profile creation, multi-user associations and dynamic data management workflows, improving panel data organization and usability for internal stakeholders.",
+        tags: [],
+      },
+      {
+        icon: "shield",
+        title: "Legal Versioning & Compliance",
+        text: "Built a legal document versioning system integrated with a third-party consent management platform: document version control, policy acceptance tracking and audit history management for privacy and regulatory compliance.",
+        tags: [],
+      },
+      {
+        icon: "bell",
+        title: "Incentives & Notification Automation",
+        text: "Developed an Incentives Management System integrated with Google Chat alerts, enabling real-time notifications, automated event tracking and streamlined panelist engagement workflows.",
+        tags: ["Google Chat"],
+      },
+      {
+        icon: "activity",
+        title: "Metrics Engine",
+        text: "Contributed to a metrics engine for collecting, processing and monitoring system KPIs, enabling data-driven analysis and improved visibility into application performance.",
+        tags: [],
+      },
+      {
+        icon: "phone",
+        title: "Mobile App Development",
+        text: "Contributed to a native Android application built with Kotlin: developing new features, optimizing existing workflows and resolving issues for a seamless, reliable mobile experience.",
+        tags: ["Kotlin", "Android"],
+      },
+    ],
     roles: [
       {
         title: "Member of Technical Staff - 1",
