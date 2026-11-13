@@ -7,12 +7,13 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
-import { FiArrowDownRight, FiDownload } from "react-icons/fi";
-import { profile, socials } from "../data/content";
+import { FiArrowDownRight, FiDownload, FiMapPin } from "react-icons/fi";
+import { place, profile, socials } from "../data/content";
 import { scrollToId } from "../lib/scroll";
 import Magnetic from "./ui/Magnetic";
 import CurrentRoleBadge from "./CurrentRoleBadge";
 import SplitText from "./ui/SplitText";
+import TypingPrompt from "./ui/TypingPrompt";
 import { socialIcons } from "./ui/icons";
 
 const ease = [0.22, 1, 0.36, 1];
@@ -69,6 +70,11 @@ export default function Hero({ ready }) {
   const onMove = (e) => {
     mx.set(e.clientX / window.innerWidth - 0.5);
     my.set(e.clientY / window.innerHeight - 0.5);
+    const r = ref.current?.getBoundingClientRect();
+    if (r) {
+      ref.current.style.setProperty("--hx", `${e.clientX - r.left}px`);
+      ref.current.style.setProperty("--hy", `${e.clientY - r.top}px`);
+    }
   };
 
   const show = (delay) => ({
@@ -82,13 +88,33 @@ export default function Hero({ ready }) {
       id="home"
       ref={ref}
       onPointerMove={onMove}
-      className="relative flex min-h-[100svh] items-center overflow-hidden pb-16 pt-32"
+      className="group/hero relative flex min-h-[100svh] items-center overflow-hidden pb-16 pt-32"
     >
+      {/* Lime grid revealed around the cursor */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover/hero:opacity-100"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, color-mix(in oklab, var(--color-accent-fg) 35%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--color-accent-fg) 35%, transparent) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+          maskImage: "radial-gradient(220px circle at var(--hx, 50%) var(--hy, 50%), black, transparent 70%)",
+          WebkitMaskImage: "radial-gradient(220px circle at var(--hx, 50%) var(--hy, 50%), black, transparent 70%)",
+        }}
+      />
       <motion.div style={{ y, scale, opacity }} className="container-x relative w-full">
         <div className="grid items-center gap-14 lg:grid-cols-[1.4fr_1fr]">
           {/* ---- Copy ---- */}
           <div>
             <CurrentRoleBadge motionProps={show(0.1)} />
+
+            <TypingPrompt
+              path="~/pulkit"
+              command="whoami"
+              start={ready}
+              delay={0.2}
+              motionProps={show(0.12)}
+            />
 
             <h1 className="font-display font-bold uppercase leading-[0.85] tracking-tighter">
               <SplitText
@@ -138,6 +164,20 @@ export default function Hero({ ready }) {
                   <FiArrowDownRight className="transition-transform duration-300 group-hover:rotate-45" />
                 </button>
               </Magnetic>
+              <Magnetic>
+                <button
+                  onClick={() => scrollToId("location")}
+                  aria-label="Locate me: jump to the map section"
+                  className="group inline-flex items-center gap-3 rounded-full border border-line px-6 py-4 font-mono text-sm uppercase tracking-[0.15em] transition-colors hover:border-accent hover:text-accent-fg"
+                >
+                  {/* Pulsing pin, echoes the map marker */}
+                  <span className="relative grid h-5 w-5 place-items-center" aria-hidden>
+                    <span className="absolute h-full w-full animate-ping rounded-full bg-accent/50" />
+                    <FiMapPin className="relative text-accent-fg" />
+                  </span>
+                  Locate me
+                </button>
+              </Magnetic>
             </motion.div>
 
             <motion.ul {...show(1.15)} className="mt-10 flex gap-3">
@@ -170,6 +210,13 @@ export default function Hero({ ready }) {
             className="relative mx-auto hidden w-full max-w-[420px] lg:block"
             style={{ perspective: 1000 }}
           >
+            {/* Viewfinder corners */}
+            <div aria-hidden className="pointer-events-none absolute -inset-6">
+              <span className="absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-accent/70" />
+              <span className="absolute right-0 top-0 h-6 w-6 border-r-2 border-t-2 border-accent/70" />
+              <span className="absolute bottom-0 left-0 h-6 w-6 border-b-2 border-l-2 border-accent/70" />
+              <span className="absolute bottom-0 right-0 h-6 w-6 border-b-2 border-r-2 border-accent/70" />
+            </div>
             <motion.div style={{ rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d" }} className="relative aspect-square">
               {/* Spinning conic ring */}
               <div className="absolute inset-0 animate-spin-slow rounded-full bg-[conic-gradient(from_0deg,var(--color-accent),var(--color-cyan),var(--color-violet),transparent_70%,var(--color-accent))] p-[2px] opacity-80">
@@ -203,6 +250,18 @@ export default function Hero({ ready }) {
                 </motion.span>
               ))}
             </motion.div>
+
+            {/* HUD readout */}
+            <div className="absolute -bottom-16 left-1/2 flex -translate-x-1/2 items-center gap-3 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
+              <span className="flex items-center gap-1.5 text-accent-fg">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" aria-hidden />
+                Online
+              </span>
+              <span aria-hidden>·</span>
+              <span>
+                {place.lat.toFixed(4)}° N, {place.lng.toFixed(4)}° E
+              </span>
+            </div>
           </motion.div>
         </div>
       </motion.div>

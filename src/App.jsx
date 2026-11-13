@@ -21,6 +21,7 @@ import TerminalPromo from "./components/terminal/TerminalPromo";
 import BackToTerminal from "./components/terminal/BackToTerminal";
 import LocationSection from "./components/location/LocationSection";
 import Footer from "./components/Footer";
+import GitStatusBar from "./components/GitStatusBar";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -60,6 +61,7 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
+      <GitStatusBar ready={!loading} />
     </MotionConfig>
   );
 }
