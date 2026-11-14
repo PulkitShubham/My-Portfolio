@@ -5,7 +5,10 @@ let lenis = null;
 
 export function initSmoothScroll() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce || lenis) return () => {};
+  // Touch devices already scroll natively with momentum; Lenis would only add a
+  // per-frame JS loop. Its smoothing targets mouse wheels.
+  const touch = window.matchMedia("(pointer: coarse)").matches;
+  if (reduce || touch || lenis) return () => {};
 
   lenis = new Lenis({ duration: 1.15, smoothWheel: true });
 

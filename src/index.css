@@ -131,6 +131,14 @@
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   border: 1px solid var(--color-line);
 }
+/* Backdrop blur is expensive on phones: use a lighter blur and a more opaque fill. */
+@media (max-width: 767px) {
+  .glass {
+    background: color-mix(in oklab, var(--color-surface) 88%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
 
 /* Card with a mouse-following spotlight. JS sets --x / --y. */
 @utility spotlight {

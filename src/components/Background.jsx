@@ -1,15 +1,27 @@
-/** Fixed ambient layer: drifting aurora blobs, a faded grid and film grain. */
+/**
+ * Fixed ambient layer: drifting aurora blobs, a faded grid and film grain.
+ * Blobs are soft radial gradients instead of blurred divs: a 120px CSS blur on
+ * a viewport-sized layer is very costly on phone GPUs, the gradient looks the
+ * same and animates on the compositor only.
+ */
+const blob = (color) => ({
+  background: `radial-gradient(closest-side, color-mix(in oklab, var(${color}) 100%, transparent), transparent)`,
+});
+
 export default function Background() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div className="absolute -left-[10%] -top-[10%] h-[55vmax] w-[55vmax] animate-blob rounded-full bg-violet/25 blur-[120px]" />
       <div
-        className="absolute -right-[15%] top-[20%] h-[45vmax] w-[45vmax] animate-blob rounded-full bg-cyan/15 blur-[120px]"
-        style={{ animationDelay: "-7s" }}
+        className="absolute -left-[10%] -top-[10%] h-[70vmax] w-[70vmax] animate-blob rounded-full opacity-25 will-change-transform"
+        style={blob("--color-violet")}
       />
       <div
-        className="absolute bottom-[-20%] left-[30%] h-[40vmax] w-[40vmax] animate-blob rounded-full bg-accent/10 blur-[120px]"
-        style={{ animationDelay: "-14s" }}
+        className="absolute -right-[15%] top-[20%] h-[60vmax] w-[60vmax] animate-blob rounded-full opacity-15 will-change-transform"
+        style={{ ...blob("--color-cyan"), animationDelay: "-7s" }}
+      />
+      <div
+        className="absolute bottom-[-20%] left-[30%] h-[50vmax] w-[50vmax] animate-blob rounded-full opacity-10 will-change-transform"
+        style={{ ...blob("--color-accent"), animationDelay: "-14s" }}
       />
 
       <div
@@ -23,7 +35,8 @@ export default function Background() {
         }}
       />
 
-      <div className="noise absolute inset-0 opacity-[0.07] mix-blend-overlay" />
+      {/* Film grain with a blend mode forces a full-screen re-composite; desktop only. */}
+      <div className="noise absolute inset-0 opacity-[0.07] mix-blend-overlay max-md:hidden" />
     </div>
   );
 }
