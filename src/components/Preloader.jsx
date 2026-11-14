@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { animate, motion } from "motion/react";
+import { getGreeting } from "../lib/greeting";
 
 const words = ["Code", "Create", "Analyse", "Build", "Ship"];
 const ease = [0.76, 0, 0.24, 1];
@@ -7,6 +8,7 @@ const ease = [0.76, 0, 0.24, 1];
 /** Full-screen intro: percentage counter + cycling words, then wipes upward. */
 export default function Preloader({ onDone }) {
   const [count, setCount] = useState(0);
+  const [greeting] = useState(getGreeting);
   const doneRef = useRef(onDone);
   doneRef.current = onDone;
 
@@ -41,6 +43,21 @@ export default function Preloader({ onDone }) {
         <span>Pulkit Shubham</span>
         <span>Portfolio ©{new Date().getFullYear()}</span>
       </div>
+
+      {/* Time-of-day greeting: fades in mid-load and leaves with the wipe, so it adds no waiting. */}
+      <motion.div
+        aria-hidden
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.6, ease }}
+        className="pointer-events-none absolute inset-0 grid place-items-center px-6 text-center"
+      >
+        <div>
+          <div className="text-5xl md:text-6xl">{greeting.emoji}</div>
+          <p className="mt-4 font-display text-3xl font-bold leading-tight text-fg md:text-5xl">{greeting.hello}</p>
+          <p className="mt-2 font-mono text-xs text-muted md:text-sm">{greeting.line}</p>
+        </div>
+      </motion.div>
 
       <div className="flex items-end justify-between gap-6">
         <div className="h-[1.2em] overflow-hidden font-display text-3xl text-fg/80 md:text-5xl">

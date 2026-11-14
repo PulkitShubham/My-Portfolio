@@ -20,7 +20,7 @@ import {
   socials,
 } from "../../data/content";
 import { formatDuration, formatMonthYear, monthsBetween } from "../../lib/dates";
-import { LOCATION_REPLAY, emit } from "../../lib/events";
+import { LOCATION_REPLAY, SITE_GLITCH, emit } from "../../lib/events";
 import { place } from "../../data/content";
 import { Accent, B, Block, Cmd, Cyan, Err, Gap, L, Muted, Rows, Violet, Warn } from "./ui";
 import BugRunner from "./BugRunner";
@@ -189,6 +189,45 @@ function HireSequence({ scrollTo }) {
       )}
     </Block>
   );
+}
+
+/* ---------- fake `rm -rf /`: "deletes" the site, glitches the page, then restores it ---------- */
+function RmSequence({ sudo }) {
+  const steps = [
+    ...(sudo ? [<Muted key="s">[sudo] permission granted. Bold move.</Muted>] : []),
+    <>removing <Cyan>/about</Cyan>… <Accent>done</Accent></>,
+    <>removing <Cyan>/experience</Cyan>… <Accent>done</Accent></>,
+    <>removing <Cyan>/projects</Cyan>… <Accent>done</Accent></>,
+    <>removing <Cyan>/skills</Cyan>… <Accent>done</Accent></>,
+    <>removing <Cyan>/node_modules</Cyan>… <Muted>all 4,000,000 of them</Muted></>,
+    <Err>Segmentation fault (core dumped) 💥</Err>,
+    <><Muted>…just kidding. Restoring from git:</Muted> <Cmd>git checkout .</Cmd></>,
+    <><Accent>✓ Everything restored.</Accent> <Muted>Nothing was harmed. This site has backups. Does your team?</Muted></>,
+  ];
+  const crashAt = steps.length - 2; // number of lines visible when the crash line has just appeared
+  const reduce = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const [n, setN] = useState(reduce ? steps.length : 1);
+
+  useEffect(() => {
+    if (n >= steps.length) return;
+    // Hold on the crash for a beat before the "just kidding".
+    const t = setTimeout(() => setN((x) => x + 1), n === crashAt ? 1400 : 380);
+    return () => clearTimeout(t);
+  }, [n, steps.length, crashAt]);
+
+  useEffect(() => {
+    if (!reduce && n === crashAt) emit(SITE_GLITCH);
+  }, [n, crashAt, reduce]);
+
+  return <Block>{steps.slice(0, n).map((s, i) => <div key={i}>{s}</div>)}</Block>;
+}
+
+/** True for things like `-rf /`, `-fr *`, `-r ~`, `--recursive .` */
+function looksLikeWipe(args) {
+  const flat = args.join(" ");
+  const recursive = /(^|\s)-[a-z]*r[a-z]*(\s|$)/i.test(flat) || /--recursive/.test(flat);
+  const everything = /(^|\s)(\/|\*|~|\.|\.\.)(\s|$)|--no-preserve-root/.test(flat);
+  return recursive && everything;
 }
 
 /* ---------- commands ---------- */
@@ -545,12 +584,23 @@ export const commands = {
       const rest = args.join(" ").toLowerCase();
       if (rest === "hire pulkit" || rest === "hire pulkit shubham" || rest === "hire me")
         return <HireSequence scrollTo={ctx.scrollTo} />;
-      if (rest.startsWith("rm")) return commands.rm.run(args.slice(1));
+      if (rest.startsWith("rm")) return commands.rm.run(args.slice(1), ctx, true);
+      if (rest.includes("sandwich")) return <div>Okay. 🥪 <Muted>(that one worked because you said sudo)</Muted></div>;
       if (!rest) return <div><Muted>usage: sudo &lt;command&gt; · I hear</Muted> <Cmd>sudo hire pulkit</Cmd> <Muted>works wonders.</Muted></div>;
       return <div><Err>recruiter is not in the sudoers file.</Err> <Muted>This incident will be reported… unless you try</Muted> <Cmd>sudo hire pulkit</Cmd></div>;
     },
   },
-  rm: { hidden: true, usage: "-rf /", desc: "go on, try it", run: () => <div><Warn>Nice try.</Warn> <Muted>This portfolio is protected by a highly motivated engineer.</Muted></div> },
+  rm: {
+    hidden: true,
+    usage: "-rf /",
+    desc: "go on, try it",
+    run: (args, _ctx, sudo) =>
+      looksLikeWipe(args) ? (
+        <RmSequence sudo={Boolean(sudo)} />
+      ) : (
+        <div><Warn>Nice try.</Warn> <Muted>This portfolio is protected by a highly motivated engineer. (Hint: you know what to type.)</Muted></div>
+      ),
+  },
   exit: { hidden: true, desc: "attempt to leave", run: () => <div><Muted>There is no escape. But there is</Muted> <Cmd>contact</Cmd><Muted>.</Muted></div> },
   vim: { hidden: true, desc: "open vim (good luck)", run: () => <div><Muted>You're now trapped in vim. Just kidding — type</Muted> <Cmd>:q</Cmd> <Muted>(or anything else).</Muted></div> },
   ":q": { hidden: true, desc: "escape vim", run: () => <div><Accent>✓</Accent> <Muted>Escaped vim. Few have done it. Hire them.</Muted></div> },

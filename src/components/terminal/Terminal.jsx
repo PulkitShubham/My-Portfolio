@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion, useInView } from "motion/react";
-import { scrollToId } from "../../lib/scroll";
+import { FiX } from "react-icons/fi";
 import { getTheme, setTheme } from "../../lib/theme";
+import { getGreeting } from "../../lib/greeting";
 import { TERMINAL_FOCUS, TERMINAL_NAVIGATED, TERMINAL_TRY, emit } from "../../lib/events";
 import { Accent, Cyan, Muted, Violet, complete, execute, quickCommands } from "./commands";
-
-export const TERMINAL_TRY_EVENT = TERMINAL_TRY; // kept for existing imports
 
 const reduceMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -34,14 +32,18 @@ async function copyText(text) {
   }
 }
 
-export default function Terminal() {
+/**
+ * The shell itself. Rendered inside TerminalDock's modal and kept mounted while
+ * the modal is closed so history and output survive. `active` is true while the
+ * modal is open; the boot sequence plays the first time it becomes true.
+ */
+export default function Terminal({ active, onClose }) {
   const [entries, setEntries] = useState([]);
   const [value, setValue] = useState("");
   const [history, setHistory] = useState([]);
   const [hIndex, setHIndex] = useState(null); // position while browsing history with ↑/↓
   const [busy, setBusy] = useState(false);
 
-  const windowRef = useRef(null);
   const bodyRef = useRef(null);
   const inputRef = useRef(null);
   const draftRef = useRef(""); // what was typed before browsing history
@@ -49,15 +51,17 @@ export default function Terminal() {
   const historyRef = useRef(history);
   historyRef.current = history;
 
-  const inView = useInView(windowRef, { once: true, amount: 0.35 });
-
   const push = useCallback((...items) => setEntries((e) => [...e, ...items]), []);
 
-  /* ----- boot sequence: plays once, the first time the window scrolls into view ----- */
+  /* ----- boot sequence: plays once, the first time the modal opens ----- */
   useEffect(() => {
-    if (!inView || bootedRef.current) return;
+    if (!active || bootedRef.current) return;
     bootedRef.current = true;
+    const greeting = getGreeting();
     const lines = [
+      <span key="g">
+        <Accent>{greeting.hello}</Accent> {greeting.emoji} <Muted>{greeting.line}</Muted>
+      </span>,
       <Muted key="a">Last login: {new Date().toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })} on ttys001</Muted>,
       <span key="b">
         Welcome to <Accent>pulkit-os</Accent> <Muted>v2.0 · everything on this site, one command away.</Muted>
@@ -78,7 +82,7 @@ export default function Terminal() {
     return () => {
       cancelled = true;
     };
-  }, [inView, push]);
+  }, [active, push]);
 
   /* ----- keep the newest output in view (scrolls the terminal only, never the page) ----- */
   useEffect(() => {
@@ -98,10 +102,8 @@ export default function Terminal() {
       setBusy(true);
       const ctx = {
         history: [...historyRef.current, trimmed],
-        scrollTo: (id) => {
-          scrollToId(id);
-          if (id !== "terminal") emit(TERMINAL_NAVIGATED, id); // shows the "back to terminal" button
-        },
+        // The dock closes the modal, then scrolls the page behind it.
+        scrollTo: (id) => (id === "terminal" ? focusInput() : emit(TERMINAL_NAVIGATED, id)),
         print: (node) => push(entry(null, node)),
         focus: () => focusInput(),
         setTheme: (t) => setTheme(t),
@@ -139,8 +141,8 @@ export default function Terminal() {
       await wait(250);
       run("help");
     };
-    window.addEventListener(TERMINAL_TRY_EVENT, onTry);
-    return () => window.removeEventListener(TERMINAL_TRY_EVENT, onTry);
+    window.addEventListener(TERMINAL_TRY, onTry);
+    return () => window.removeEventListener(TERMINAL_TRY, onTry);
   }, [focusInput, run]);
 
   const onKeyDown = (e) => {
@@ -215,37 +217,31 @@ export default function Terminal() {
   };
 
   return (
-    <div>
-      <motion.div
-        ref={windowRef}
-        initial={{ opacity: 0, y: 50, scale: 0.98 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="relative"
-      >
-        {/* Glow behind the window */}
-        <div aria-hidden className="absolute -inset-4 -z-10 rounded-[2rem] bg-gradient-to-r from-violet/25 via-cyan/15 to-accent/25 opacity-70 blur-3xl" />
-
-        <div
-          onMouseUp={onWindowMouseUp}
-          className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b10] text-[#d7d7de] shadow-2xl shadow-black/50"
-        >
+    <div
+      onMouseUp={onWindowMouseUp}
+      className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b10] text-[#d7d7de] shadow-2xl shadow-black/60"
+    >
           {/* Title bar */}
           <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.03] px-4 py-3">
-            <div className="flex gap-2" aria-hidden>
-              <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
-              <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
-              <span className="h-3 w-3 rounded-full bg-[#28c840]" />
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close terminal"
+                className="h-3 w-3 rounded-full bg-[#ff5f57] transition-transform hover:scale-125"
+              />
+              <span aria-hidden className="h-3 w-3 rounded-full bg-[#febc2e]" />
+              <span aria-hidden className="h-3 w-3 rounded-full bg-[#28c840]" />
             </div>
             <p className="flex-1 truncate text-center font-mono text-xs text-[#7c7c8a]">pulkit@portfolio — zsh — 80×24</p>
-            <span className="hidden items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[#7c7c8a] sm:flex">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#28c840] opacity-75" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#28c840]" />
-              </span>
-              live
-            </span>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close terminal"
+              className="grid h-7 w-7 place-items-center rounded-full text-[#7c7c8a] transition-colors hover:bg-white/10 hover:text-white"
+            >
+              <FiX />
+            </button>
           </div>
 
           {/* Output + prompt */}
@@ -255,7 +251,7 @@ export default function Terminal() {
             role="log"
             aria-live="polite"
             aria-label="Terminal output"
-            className="h-[24rem] overflow-y-auto overscroll-contain px-4 py-4 font-mono text-[12.5px] leading-relaxed sm:h-[28rem] sm:px-6 sm:text-[13.5px] [scrollbar-color:rgba(255,255,255,0.15)_transparent] [scrollbar-width:thin]"
+            className="h-[min(52dvh,24rem)] overflow-y-auto overscroll-contain px-4 py-4 font-mono text-[12.5px] leading-relaxed sm:h-[min(58dvh,28rem)] sm:px-6 sm:text-[13.5px] [scrollbar-color:rgba(255,255,255,0.15)_transparent] [scrollbar-width:thin]"
           >
             {entries.map((e) => (
               <div key={e.id} className="mb-2 break-words">
@@ -293,18 +289,10 @@ export default function Terminal() {
               />
             </label>
           </div>
-        </div>
-      </motion.div>
 
       {/* Quick commands (also the main way in on phones) */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        className="mt-6 flex flex-wrap items-center gap-2"
-      >
-        <span id="terminal-hint" className="mr-1 font-mono text-xs uppercase tracking-[0.2em] text-muted">
+      <div className="flex items-center gap-2 overflow-x-auto border-t border-white/10 bg-white/[0.03] px-4 py-3 [scrollbar-width:none]">
+        <span id="terminal-hint" className="mr-1 shrink-0 font-mono text-[10px] uppercase tracking-[0.2em] text-[#7c7c8a]">
           Try
         </span>
         {quickCommands.map((c) => (
@@ -312,12 +300,12 @@ export default function Terminal() {
             key={c}
             type="button"
             onClick={() => !busy && run(c)}
-            className="rounded-full border border-line bg-surface/70 px-3 py-1.5 font-mono text-xs text-fg/80 transition-all hover:-translate-y-0.5 hover:border-accent hover:text-accent-fg"
+            className="shrink-0 rounded-full border border-white/10 px-3 py-1.5 font-mono text-xs text-[#d7d7de] transition-colors hover:border-[#c8ff3d] hover:text-[#c8ff3d]"
           >
             {c}
           </button>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }

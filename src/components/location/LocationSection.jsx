@@ -69,7 +69,7 @@ export default function LocationSection() {
     <section id="location" className="relative py-28 md:py-40">
       <div className="container-x">
         <SectionHeading
-          index="08"
+          index="07"
           label="Location"
           title={`Based in ${place.nickname}.`}
           desc="Building software from India's tech capital. Here's where to find me, what time it is, and how the weather's treating us."

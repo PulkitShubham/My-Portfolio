@@ -1,7 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { navLinks, socials } from "../data/content";
 import { lockScroll, scrollToId } from "../lib/scroll";
+import { TERMINAL_OPEN, emit, toast } from "../lib/events";
+
+const POKE_JOKES = [
+  "Ouch! That's my logo 🤕",
+  "Easy, that tickles 😆",
+  "I'm just initials, not a stress ball 😅",
+  "PS: please stop 🙃",
+];
+import { FiTerminal } from "react-icons/fi";
 import { socialIcons } from "./ui/icons";
 import ThemeToggle from "./ThemeToggle";
 
@@ -33,6 +42,23 @@ export default function Navbar({ ready }) {
   const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
 
+  // Logo easter egg: 5 quick clicks spin it and get a joke, a 6th gets told off.
+  const [spin, setSpin] = useState(0);
+  const pokes = useRef({ n: 0, timer: 0 });
+  const poke = () => {
+    const p = pokes.current;
+    clearTimeout(p.timer);
+    p.n += 1;
+    p.timer = setTimeout(() => (p.n = 0), 2000);
+    if (p.n === 5) {
+      setSpin((s) => s + 1);
+      toast(POKE_JOKES[Math.floor(Math.random() * POKE_JOKES.length)]);
+    } else if (p.n === 6) {
+      toast("Stop poking me 😠");
+      p.n = 0;
+    }
+  };
+
   // Hide on scroll down, reveal on scroll up.
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
@@ -54,7 +80,8 @@ export default function Navbar({ ready }) {
   const go = (id) => {
     setOpen(false);
     // Wait a tick so the scroll lock is released before scrolling.
-    requestAnimationFrame(() => scrollToId(id));
+    // "terminal" isn't a page section any more: it opens the pinned terminal modal.
+    requestAnimationFrame(() => (id === "terminal" ? emit(TERMINAL_OPEN) : scrollToId(id)));
   };
 
   return (
@@ -73,13 +100,21 @@ export default function Navbar({ ready }) {
             }`}
           >
             <button
-              onClick={() => go("home")}
+              onClick={() => {
+                poke();
+                go("home");
+              }}
+              data-no-rage
               className="group flex items-center gap-2 rounded-full px-3 py-1.5"
               aria-label="Back to top"
             >
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-accent font-display text-sm font-bold text-on-accent transition-transform duration-500 group-hover:rotate-[360deg]">
+              <motion.span
+                animate={{ rotate: spin * 720 }}
+                transition={{ duration: 1, ease }}
+                className="grid h-8 w-8 place-items-center rounded-full bg-accent font-display text-sm font-bold text-on-accent transition-transform duration-500 group-hover:rotate-[360deg]"
+              >
                 PS
-              </span>
+              </motion.span>
               <span className="hidden font-display text-sm font-medium sm:block">Pulkit Shubham</span>
             </button>
 
@@ -100,7 +135,14 @@ export default function Navbar({ ready }) {
                         transition={{ type: "spring", stiffness: 400, damping: 32 }}
                       />
                     )}
-                    <span className="relative">{link.label}</span>
+                    {link.id === "terminal" ? (
+                      <span className="relative grid place-items-center" title="Open terminal">
+                        <FiTerminal aria-hidden className="text-base" />
+                        <span className="sr-only">Open terminal</span>
+                      </span>
+                    ) : (
+                      <span className="relative">{link.label}</span>
+                    )}
                   </button>
                 </li>
               ))}

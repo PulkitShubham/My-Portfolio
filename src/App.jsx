@@ -16,12 +16,11 @@ import Education from "./components/Education";
 import Projects from "./components/Projects";
 import Achievements from "./components/Achievements";
 import Contact from "./components/Contact";
-import TerminalSection from "./components/terminal/TerminalSection";
-import TerminalPromo from "./components/terminal/TerminalPromo";
-import BackToTerminal from "./components/terminal/BackToTerminal";
+import TerminalDock from "./components/terminal/TerminalDock";
 import LocationSection from "./components/location/LocationSection";
 import Footer from "./components/Footer";
 import GitStatusBar from "./components/GitStatusBar";
+import FunExtras from "./components/FunExtras";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -44,8 +43,7 @@ export default function App() {
       <Background />
       <ScrollProgress />
       <Navbar ready={!loading} />
-      <TerminalPromo ready={!loading} />
-      <BackToTerminal />
+      <TerminalDock ready={!loading} />
 
       <main className="relative">
         <Hero ready={!loading} />
@@ -56,12 +54,12 @@ export default function App() {
         <Education />
         <Projects />
         <Achievements />
-        <TerminalSection />
         <LocationSection />
         <Contact />
       </main>
       <Footer />
       <GitStatusBar ready={!loading} />
+      <FunExtras />
     </MotionConfig>
   );
 }

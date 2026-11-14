@@ -6,7 +6,7 @@ export const profile = {
   lastName: "Shubham",
   roles: ["Android Developer", "C++ Programmer", "Data Science Trailblazer", "ML Enthusiast"],
   tagline:
-    "Member of Technical Staff at Nielsen and a Computer Science engineer from LPU, specialising in Data Science. I build Android apps, train machine learning models and craft web experiences, driven by a love for technology and a hunger for hard problems.",
+    "I turn data into products people actually use. Mobile apps, machine learning models and fast, polished web experiences. Hard problems are my favourite kind.",
   location: "Bengaluru, India",
   email: "pulkitshubham11@gmail.com",
   cv: "/CV.pdf",
